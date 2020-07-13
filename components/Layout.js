@@ -35,8 +35,8 @@ export default ({ children }) => {
 			</footer>
 			<style jsx>{`
 				.container {
+					position: relative;
 					min-height: 100vh;
-					padding: 0 0.5rem;
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
@@ -47,6 +47,7 @@ export default ({ children }) => {
 					position: fixed;
 					width: 100%;
 					height: 60px;
+					z-index: 1200;
 					top: 0;
 					background: var(--button-color);
 					display: flex;

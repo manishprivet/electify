@@ -14,8 +14,10 @@ export default async (req, res) => {
 		case 'POST':
 			{
 				try {
-					const { election_name, no_of_voters } = req.body;
-					const response = await createElection(election_name, no_of_voters, 0);
+					const { display_name, election_name, no_of_voters, candidates } = req.body;
+					if (!display_name || !election_name || !no_of_voters)
+						return res.status(400).json({ success: false, error: false });
+					const response = await createElection(display_name, election_name, no_of_voters, candidates, 0);
 					res.json(response);
 				} catch (err) {
 					return error(err, res);
@@ -27,7 +29,7 @@ export default async (req, res) => {
 	}
 };
 
-function createElection(election_name, no_of_voters, count) {
+function createElection(display_name, election_name, no_of_voters, candidates, count) {
 	return new Promise(async (resolve, reject) => {
 		const election_id = election_name + '-' + generateRowId(1);
 		const getParams = {
@@ -38,21 +40,25 @@ function createElection(election_name, no_of_voters, count) {
 		docClient.get(getParams, async function(err, data) {
 			if (err) reject(err);
 			if (data.Item) {
-				const response = await createElection(election_name, no_of_voters, count + 1);
+				const response = await createElection(display_name, election_name, no_of_voters, candidates, count + 1);
 				resolve(response);
 			} else {
 				const voters = [];
 				for (let i = 0; i < no_of_voters; i++)
-					voters.push(election_name + '-' + generateRowId(123) + '-' + generateRowId(769));
+					voters.push({
+						voter_id: election_name + '-' + i,
+						voter_secret: election_name + '-' + generateRowId(123) + '-' + generateRowId(769)
+					});
+				candidates.forEach((candidate) => (candidate.votes = 0));
 				const now = new Date();
 				const expiration_time = Math.floor(now.getTime() / 1000) + 604800;
 				const putParams = {
 					TableName: table,
-					Item: { election_id, voters, expiration_time }
+					Item: { election_id, voters, display_name, expiration_time, candidates }
 				};
 				docClient.put(putParams, function(err, _) {
 					if (err) reject(err);
-					return resolve({ success: true, election_id, voters });
+					return resolve({ success: true, election_id, display_name, voters, candidates });
 				});
 			}
 		});
@@ -60,7 +66,6 @@ function createElection(election_name, no_of_voters, count) {
 }
 
 const error = (err, res) => {
-	console.log('ERROR', err);
 	res.json({ success: false, error: true });
 };
 
