@@ -22,7 +22,7 @@ export default function Home() {
 							<p>Create an anonymous election</p>
 						</a>
 					</Link>
-					<Link href='/view'>
+					<Link href='/results'>
 						<a className='card'>
 							<h3>View Election Results</h3>
 							<p>View Results of existing election</p>
@@ -104,6 +104,8 @@ export default function Home() {
 					border: 1px solid var(--highlight-color);
 					border-radius: 10px;
 					transition: color 0.15s ease, border-color 0.15s ease;
+					width: 180px;
+					height: 100px;
 				}
 
 				.card:hover,

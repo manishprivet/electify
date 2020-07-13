@@ -7,6 +7,7 @@ import Countdown from '../../components/Countdown';
 export default () => {
 	const [ isLoading, setIsLoading ] = useState(true);
 	const [ data, setData ] = useState({});
+	const [ errors, setErrors ] = useState('');
 	const router = useRouter();
 	const { id } = router.query;
 
@@ -27,7 +28,7 @@ export default () => {
 		<Layout>
 			{isLoading ? (
 				<Spinner />
-			) : (
+			) : data.success ? (
 				<div className='container'>
 					<h1>
 						Results for Election <span style={{ color: 'var(--button-color)' }}>{data.display_name}</span>
@@ -47,13 +48,18 @@ export default () => {
 						</tbody>
 					</table>
 					<h2 style={{ textAlign: 'center' }}>
-						This will expire in: <br />
+						This Election will expire in: <br />
 						<Countdown
 							style={{ color: 'red', fontFamily: 'monospace', fontSize: '1.2em' }}
 							epoch={data.expiration_time}
 						/>
 					</h2>
 					<button onClick={() => router.push('/')}>Go to Home</button>
+				</div>
+			) : (
+				<div className='container'>
+					<h1>Given Election ID is invalid</h1>
+					<button onClick={() => router.push('/results')}>Go Back</button>
 				</div>
 			)}
 		</Layout>

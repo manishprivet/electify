@@ -4,7 +4,7 @@ function MyApp({ Component, pageProps }) {
 			<Component {...pageProps} />
 			<style jsx global>{`
 				:root {
-					--button-color: #0070f3;
+					--button-color: #00d1c7;
 					--text-color: #fffffe;
 					--background-color: #16161a;
 					--highlight-color: #eaeaea;

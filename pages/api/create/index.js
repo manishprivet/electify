@@ -59,7 +59,7 @@ function createElection(display_name, election_name, no_of_voters, candidates, c
 				};
 				docClient.put(putParams, function(err, _) {
 					if (err) reject(err);
-					return resolve({ success: true, election_id, display_name, voters, candidates });
+					return resolve({ success: true, election_id, display_name, voters, candidates, expiration_time });
 				});
 			}
 		});

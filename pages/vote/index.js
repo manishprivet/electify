@@ -15,7 +15,7 @@ export default () => {
 	return (
 		<Layout>
 			<div className='container'>
-				<h1>Get Voting</h1>
+				<h1>Get on and Vote</h1>
 				<label htmlFor='election-id'>Election ID</label>
 				<input
 					onKeyPress={(e) => (e.charCode === 13 ? null : null)}

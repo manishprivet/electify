@@ -147,6 +147,13 @@ export default ({ voterData }) => {
 					))}
 				</tbody>
 			</table>
+			<h2 style={{ textAlign: 'center' }}>
+				This will expire in: <br />
+				<Countdown
+					style={{ color: 'red', fontFamily: 'monospace', fontSize: '1.2em' }}
+					epoch={data.expiration_time}
+				/>
+			</h2>
 			<div className='downloads-container'>
 				<button onClick={() => downloadObjectAsJson(voterData.voters, voterData.election_id)}>
 					Download JSON
