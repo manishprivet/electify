@@ -1,6 +1,6 @@
 export default () => {
 	return (
-		<div className='container'>
+		<div className='spinner-container'>
 			<div className='sk-cube-grid'>
 				<div className='sk-cube sk-cube1' />
 				<div className='sk-cube sk-cube2' />
@@ -14,7 +14,7 @@ export default () => {
 			</div>
 
 			<style jsx>{`
-				.container {
+				.spinner-container {
 					height: 100vh;
 					display: flex;
 					align-items: center;

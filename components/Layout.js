@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default ({ children }) => {
 	return (
-		<div className='container'>
+		<div className='top-container'>
 			<nav>
 				<ul>
 					<li>
@@ -34,7 +34,7 @@ export default ({ children }) => {
 				</a>
 			</footer>
 			<style jsx>{`
-				.container {
+				.top-container {
 					position: relative;
 					min-height: 100vh;
 					display: flex;

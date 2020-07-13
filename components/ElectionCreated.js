@@ -163,25 +163,6 @@ export default ({ voterData }) => {
 				</button>
 			</div>
 			<style jsx>{`
-				.container {
-					position: relative;
-					height: 100%;
-					width: 70%;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					flex-flow: column nowrap;
-					margin: auto;
-					color: var(--text-color);
-					margin-top: 60px;
-					margin-bottom: 40px;
-				}
-
-				.container h1 {
-					text-align: center;
-					font-size: 2.5em;
-				}
-
 				.terms {
 					display: flex;
 					width: 100%;
@@ -258,24 +239,6 @@ export default ({ voterData }) => {
 					pointer-events: none;
 				}
 
-				table {
-					background-color: #d3d3d34a;
-					padding: 10px;
-					border-radius: 20px;
-					margin: 15px 0;
-				}
-
-				th,
-				td {
-					padding: 7px 15px 10px 15px;
-					text-align: center;
-					font-size: 1.2em;
-				}
-
-				td:first-child {
-					border-right: 1px solid white;
-				}
-
 				.downloads-container {
 					position: relative;
 					display: flex;
@@ -309,12 +272,6 @@ export default ({ voterData }) => {
 
 				.downloads-container button:last-child:hover {
 					background: #ff977e;
-				}
-
-				@media only screen and (max-width: 900px) {
-					.container {
-						width: 90%;
-					}
 				}
 
 				@media only screen and (max-width: 680px) {

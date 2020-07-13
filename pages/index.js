@@ -22,11 +22,16 @@ export default function Home() {
 							<p>Create an anonymous election</p>
 						</a>
 					</Link>
-
 					<Link href='/view'>
 						<a className='card'>
 							<h3>View Election Results</h3>
 							<p>View Results of existing election</p>
+						</a>
+					</Link>
+					<Link href='/vote'>
+						<a className='card'>
+							<h3>Vote for an Election</h3>
+							<p>Keep your Election ID, Voter ID and Voter Secret ready</p>
 						</a>
 					</Link>
 				</div>

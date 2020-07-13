@@ -124,85 +124,6 @@ export default ({ createElection }) => {
 			{errors ? <p className='error'>{errors}</p> : null}
 			<button onClick={createElectionData}>Create</button>
 			<style jsx>{`
-				.container {
-					position: relative;
-					height: auto;
-					width: 40%;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					flex-flow: column nowrap;
-					margin: auto;
-					color: var(--text-color);
-					margin-top: 60px;
-					margin-bottom: 40px;
-					overflow-x: hidden;
-					overflow-y: visible;
-				}
-
-				.container h1 {
-					font-size: 3em;
-					margin-bottom: 50px;
-				}
-
-				.container label {
-					font-size: 1.4em;
-					align-self: start;
-					margin-right: auto;
-					margin-left: 10px;
-					margin-top: 15px;
-				}
-
-				.container input {
-					position: relative;
-					z-index: 5;
-					background: var(--background-color);
-					color: var(--text-color);
-					width: 100%;
-					border: none;
-					border-bottom: 2px solid var(--text-color);
-					font-size: 1.3em;
-					padding: 10px;
-					outline: none;
-					margin: 10px 0;
-					caret-color: var(--text-color);
-				}
-
-				.container input:focus + span {
-					width: 100%;
-					transition: 0.2s ease-in-out;
-				}
-
-				.container input + span {
-					content: "";
-					position: relative;
-					width: 0%;
-					height: 0;
-					border-bottom: 3px solid var(--button-color);
-					z-index: 15;
-					transform: translateY(-13px);
-				}
-
-				.container button {
-					outline: none;
-					background: none;
-					border: 2px solid var(--button-color);
-					border-radius: 40px;
-					color: var(--button-color);
-					padding: 15px 45px;
-					font-size: 1.3em;
-					margin-top: 30px;
-					box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0);
-					transition: all 0.2s ease-in;
-				}
-
-				.container button:hover {
-					cursor: pointer;
-					color: var(--background-color);
-					background: var(--button-color);
-					box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.4);
-				}
-
 				.candidates {
 					position: relative;
 					height: auto;
@@ -234,14 +155,6 @@ export default ({ createElection }) => {
 					padding: 0;
 				}
 
-				.error {
-					color: red;
-					font-size: 1.3em;
-					align-self: start;
-					margin-right: auto;
-					margin-left: 30px;
-				}
-
 				.plus {
 					display: inline-block;
 					width: 50px;
@@ -257,25 +170,6 @@ export default ({ createElection }) => {
 
 				.plus.remove {
 					transform: rotate(45deg);
-				}
-
-				@media only screen and (max-width: 1200px) {
-					.container {
-						width: 70%;
-					}
-				}
-
-				@media only screen and (max-width: 600px) {
-					.container {
-						width: 90%;
-					}
-					.container h1 {
-						font-size: 2em;
-						margin-bottom: 30px;
-					}
-					.container input {
-						font-size: 1.2em;
-					}
 				}
 			`}</style>
 		</main>

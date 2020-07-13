@@ -8,6 +8,7 @@ AWS.config.update({
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 const table = 'electify';
+const pattern = /^(?![0-9]+$)(?!.*-$)(?!-)[a-zA-Z0-9-]{1,63}$/g;
 
 export default async (req, res) => {
 	switch (req.method) {
@@ -15,7 +16,7 @@ export default async (req, res) => {
 			{
 				try {
 					const { display_name, election_name, no_of_voters, candidates } = req.body;
-					if (!display_name || !election_name || !no_of_voters)
+					if (!display_name || !election_name || !no_of_voters || !pattern.test(election_name))
 						return res.status(400).json({ success: false, error: false });
 					const response = await createElection(display_name, election_name, no_of_voters, candidates, 0);
 					res.json(response);
@@ -66,6 +67,7 @@ function createElection(display_name, election_name, no_of_voters, candidates, c
 }
 
 const error = (err, res) => {
+	console.log(err);
 	res.json({ success: false, error: true });
 };
 
