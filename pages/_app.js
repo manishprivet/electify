@@ -101,6 +101,13 @@ function MyApp({ Component, pageProps }) {
 					transition: all 0.2s ease-in;
 				}
 
+				.container button img {
+					height: 1.3em;
+					width: 1.3em;
+					margin: auto;
+					margin-right: 8px;
+				}
+
 				.container button:hover {
 					cursor: pointer;
 					color: var(--background-color);
@@ -149,8 +156,8 @@ function MyApp({ Component, pageProps }) {
 					font-size: 1.2em;
 				}
 
-				td:first-child {
-					border-right: 1px solid white;
+				td:nth-child(2) {
+					border-left: 1px solid white;
 				}
 			`}</style>
 		</div>

@@ -29,7 +29,8 @@ export default async (req, res) => {
 							candidates: data.Item.candidates,
 							expiration_time: data.Item.expiration_time,
 							total_votes: totalVotes(data.Item.candidates),
-							voters_remaining: data.Item.voters.length
+							voters_remaining: data.Item.voters.length,
+							auth_type: data.Item.auth_type
 						});
 					}
 					return res.json({ success: false, error: 'Wrong Election ID' });

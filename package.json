@@ -9,9 +9,11 @@
   },
   "dependencies": {
     "aws-sdk": "^2.713.0",
+    "google-auth-library": "^6.0.5",
     "next": "9.4.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-google-login": "^5.1.21",
     "swr": "^0.2.3"
   }
 }

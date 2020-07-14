@@ -28,14 +28,22 @@ export default () => {
 		[ id ]
 	);
 
-	const vote = async ({ voterId, voterSecret, cIndex }) => {
-		if (!voterId || !voterSecret || cIndex < 0) return setErrors('All values are required');
+	const vote = async ({ voterId, voterSecret, cIndex, tokenId, authType }) => {
+		if (
+			cIndex < 0 ||
+			!authType ||
+			(authType == 'secret' && !voterId && !voterSecret) ||
+			(authType == 'google' && !tokenId)
+		)
+			return setErrors('All values are required');
 		setIsLoading(true);
 		const data = {
 			election_id: id,
 			voter_id: voterId,
 			voter_secret: voterSecret,
-			c_index: cIndex
+			c_index: cIndex,
+			auth_type: authType,
+			token_id: tokenId
 		};
 		const res = await fetch('/api/vote', {
 			method: 'PUT',
@@ -56,7 +64,7 @@ export default () => {
 					<button onClick={() => router.push('/results/[id]', `/results/${id}`)}>See Results</button>
 				</div>
 			) : data.success ? (
-				<VotingScreen data={data} vote={vote} errors={errors} />
+				<VotingScreen data={data} vote={vote} errors={errors} setErrors={setErrors} />
 			) : (
 				<div className='container'>
 					<h1>Given Election ID is invalid</h1>

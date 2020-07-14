@@ -100,11 +100,14 @@ export default ({ voterData }) => {
 				This is the <span style={{ color: 'red', fontSize: '1.1em' }}>only time</span> you'll be seeing this
 				list. So <span style={{ color: 'red', fontSize: '1.1em' }}>download it</span> at a safe location.
 			</h3>
-			<h3>
-				Distribute Voter IDs and <span style={{ color: 'red', fontSize: '1.1em' }}>Secrets</span> among the
-				voters <span style={{ color: 'red', fontSize: '1.1em' }}>seperately</span>, as each voter ID gets
-				exactly <span style={{ color: 'red', fontSize: '1.1em' }}>one chance to vote</span>
-			</h3>
+			{voterData.auth_type === 'secret' ? (
+				<h3>
+					Distribute Voter IDs and <span style={{ color: 'red', fontSize: '1.1em' }}>Secrets</span> among the
+					voters <span style={{ color: 'red', fontSize: '1.1em' }}>seperately</span>, as each voter ID gets
+					exactly <span style={{ color: 'red', fontSize: '1.1em' }}>one chance to vote</span>
+				</h3>
+			) : null}
+
 			<h2>Candidates</h2>
 			<table>
 				<tbody>
@@ -139,13 +142,13 @@ export default ({ voterData }) => {
 			<table>
 				<tbody>
 					<tr>
-						<th>Voter Id</th>
-						<th>Voter Secret</th>
+						<th>{voterData.auth_type === 'secret' ? 'Voter Id' : 'Emails'}</th>
+						{voterData.auth_type === 'secret' ? <th>Voter Secret</th> : null}
 					</tr>
-					{voterData.voters.map((voter) => (
-						<tr key={voter.voter_id}>
-							<td>{voter.voter_id}</td>
-							<td>{voter.voter_secret}</td>
+					{voterData.voters.map((voter, index) => (
+						<tr key={'voter-' + index}>
+							<td>{voterData.auth_type === 'secret' ? voter.voter_id : voter}</td>
+							{voterData.auth_type === 'secret' ? <td>{voter.voter_secret}</td> : null}
 						</tr>
 					))}
 				</tbody>

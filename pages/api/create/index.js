@@ -15,18 +15,30 @@ export default async (req, res) => {
 		case 'POST':
 			{
 				try {
-					let { display_name, election_name, no_of_voters, candidates } = req.body;
+					let { display_name, election_name, no_of_voters, candidates, auth_type, emails } = req.body;
+					console.log(auth_type, emails, no_of_voters);
 					if (
 						!display_name ||
 						!election_name ||
-						!no_of_voters ||
-						!/^\d+$/.test(no_of_voters) ||
 						no_of_voters > 10000 ||
-						!pattern.test(election_name)
+						!pattern.test(election_name) ||
+						!auth_type ||
+						(auth_type == 'secret' && !/^\d+$/.test(no_of_voters) && !no_of_voters) ||
+						(auth_type == 'google' && !emails)
 					)
 						return res.status(400).json({ success: false, error: false });
 					election_name = election_name.toLowerCase();
-					const response = await createElection(display_name, election_name, no_of_voters, candidates, 0);
+					emails = emails.split(' ').join('');
+					emails = emails.toLowerCase();
+					const response = await createElection(
+						display_name,
+						election_name,
+						no_of_voters,
+						candidates,
+						auth_type,
+						emails,
+						0
+					);
 					res.json(response);
 				} catch (err) {
 					return error(err, res);
@@ -38,7 +50,7 @@ export default async (req, res) => {
 	}
 };
 
-function createElection(display_name, election_name, no_of_voters, candidates, count) {
+function createElection(display_name, election_name, no_of_voters, candidates, auth_type, emails, count) {
 	return new Promise(async (resolve, reject) => {
 		const election_id = election_name + '-' + generateRowId(1);
 		const getParams = {
@@ -49,29 +61,47 @@ function createElection(display_name, election_name, no_of_voters, candidates, c
 		docClient.get(getParams, async function(err, data) {
 			if (err) reject(err);
 			if (data.Item) {
-				const response = await createElection(display_name, election_name, no_of_voters, candidates, count + 1);
+				const response = await createElection(
+					display_name,
+					election_name,
+					no_of_voters,
+					candidates,
+					auth_type,
+					emails,
+					count + 1
+				);
 				resolve(response);
 			} else {
-				const voters = [];
-				const wordsData = await fetch(
-					`https://random-word-api.herokuapp.com/word?number=${no_of_voters}&swear=0`
-				);
-				const words = await wordsData.json();
-				for (let i = 0; i < no_of_voters; i++)
-					voters.push({
-						voter_id: election_name + '-' + i,
-						voter_secret: election_name + '-' + words[i]
-					});
+				let voters = [];
+				if (auth_type === 'secret') {
+					const wordsData = await fetch(
+						`https://random-word-api.herokuapp.com/word?number=${no_of_voters}&swear=0`
+					);
+					const words = await wordsData.json();
+					for (let i = 0; i < no_of_voters; i++)
+						voters.push({
+							voter_id: election_name + '-' + i,
+							voter_secret: election_name + '-' + words[i]
+						});
+				} else voters = emails.split(',');
 				candidates.forEach((candidate) => (candidate.votes = 0));
 				const now = new Date();
 				const expiration_time = Math.floor(now.getTime() / 1000) + 604800;
 				const putParams = {
 					TableName: table,
-					Item: { election_id, voters, display_name, expiration_time, candidates }
+					Item: { election_id, voters, display_name, expiration_time, candidates, auth_type }
 				};
 				docClient.put(putParams, function(err, _) {
 					if (err) reject(err);
-					return resolve({ success: true, election_id, display_name, voters, candidates, expiration_time });
+					return resolve({
+						success: true,
+						election_id,
+						display_name,
+						voters,
+						candidates,
+						expiration_time,
+						auth_type
+					});
 				});
 			}
 		});
