@@ -2,8 +2,8 @@ This is a [Next.js](https://nextjs.org/) + [Vercel](https://vercel.com/) Project
 
 <p align="justify">
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://gitHub.com/manishprivet/electify)![GitHub last commit](https://img.shields.io/github/last-commit/manishprivet/electify?style=for-the-badge)
-[![Website allwelearn.com](https://img.shields.io/website-up-down-green-red/https/allwelearn.com.svg)](https://electify.manish.codes)
+[![Maintenance](https://img.shields.io/maintenance/yes/2020?style=for-the-badge)](https://gitHub.com/manishprivet/electify) ![GitHub last commit](https://img.shields.io/github/last-commit/manishprivet/electify?style=for-the-badge)
+[![Website](https://img.shields.io/website?down_color=blue&down_message=rocking&style=for-the-badge&up_color=blue&up_message=rocking&url=https%3A%2F%2Felectify.manish.codes%2F)](https://electify.manish.codes)
 ![David](https://img.shields.io/david/manishprivet/electify?style=for-the-badge)
 ![GitHub repo size](https://img.shields.io/github/repo-size/manishprivet/electify?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/manishprivet/electify?style=for-the-badge)
