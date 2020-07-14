@@ -27,7 +27,7 @@ export default ({ data }) => {
 					<div className='candidate-label'>
 						<p>{candidate.name}</p>
 						<p>
-							{candidate.votes} Vote{candidate.votes === 1 ? '' : 's'}
+							{candidate.votes} Vote{candidate.votes === 1 ? '' : 's'} out of {data.total_votes}
 						</p>
 					</div>
 					<ProgressBar total={data.total_votes} progress={candidate.votes} />

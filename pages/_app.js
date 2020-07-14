@@ -8,7 +8,8 @@ function MyApp({ Component, pageProps }) {
 					--text-color: #fffffe;
 					--background-color: #16161a;
 					--highlight-color: #777;
-					--invert-value: invert(100%);
+					--invert-value: invert(0%);
+					transition: all 0.3s ease-out;
 				}
 
 				html,

@@ -42,6 +42,7 @@ export default ({ createElection }) => {
 			return setErrors('All values are required.');
 		if (!pattern.test(electionId))
 			return setErrors(`Election id only contain characters between 0-9, a-z, A-Z and hyphen(-)`);
+		if (noOfVoters > 10000) return setErrors(`Number of voters can't be more than`);
 		const c = [ ...candidates ];
 		c.forEach((candidate, index) => (candidate.name === '' ? c.splice(index, 1) : null));
 		const data = {

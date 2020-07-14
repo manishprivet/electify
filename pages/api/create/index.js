@@ -15,9 +15,17 @@ export default async (req, res) => {
 		case 'POST':
 			{
 				try {
-					const { display_name, election_name, no_of_voters, candidates } = req.body;
-					if (!display_name || !election_name || !no_of_voters || !pattern.test(election_name))
+					let { display_name, election_name, no_of_voters, candidates } = req.body;
+					if (
+						!display_name ||
+						!election_name ||
+						!no_of_voters ||
+						!/^\d+$/.test(no_of_voters) ||
+						no_of_voters > 10000 ||
+						!pattern.test(election_name)
+					)
 						return res.status(400).json({ success: false, error: false });
+					election_name = election_name.toLowerCase();
 					const response = await createElection(display_name, election_name, no_of_voters, candidates, 0);
 					res.json(response);
 				} catch (err) {
@@ -45,10 +53,14 @@ function createElection(display_name, election_name, no_of_voters, candidates, c
 				resolve(response);
 			} else {
 				const voters = [];
+				const wordsData = await fetch(
+					`https://random-word-api.herokuapp.com/word?number=${no_of_voters}&swear=0`
+				);
+				const words = await wordsData.json();
 				for (let i = 0; i < no_of_voters; i++)
 					voters.push({
 						voter_id: election_name + '-' + i,
-						voter_secret: election_name + '-' + generateRowId(123) + '-' + generateRowId(769)
+						voter_secret: election_name + '-' + words[i]
 					});
 				candidates.forEach((candidate) => (candidate.votes = 0));
 				const now = new Date();

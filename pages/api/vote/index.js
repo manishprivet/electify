@@ -16,6 +16,7 @@ export default async (req, res) => {
 				const { election_id, voter_id, voter_secret, c_index } = req.body;
 				if (!election_id || !voter_id || !voter_secret || c_index === undefined)
 					return res.status(400).json({ success: false, error: 'Incomplete Params' });
+				election_id = election_id.toLowerCase();
 				const getParams = {
 					TableName: table,
 					Key: { election_id }

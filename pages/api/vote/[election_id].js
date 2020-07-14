@@ -15,6 +15,7 @@ export default async (req, res) => {
 			{
 				const { election_id } = req.query;
 				if (!election_id) return res.status(400).json({ success: false, error: false });
+				election_id = election_id.toLowerCase();
 				const getParams = {
 					TableName: table,
 					Key: { election_id }

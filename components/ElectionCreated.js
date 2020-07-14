@@ -97,13 +97,13 @@ export default ({ voterData }) => {
 			</div>
 
 			<h3>
-				This is the <span style={{ color: 'red', fontSize: '1.2em' }}>only time</span> you'll be seeing this
-				list. So <span style={{ color: 'red', fontSize: '1.2em' }}>download it</span> at a safe location.
+				This is the <span style={{ color: 'red', fontSize: '1.1em' }}>only time</span> you'll be seeing this
+				list. So <span style={{ color: 'red', fontSize: '1.1em' }}>download it</span> at a safe location.
 			</h3>
 			<h3>
-				Distribute Voter IDs and <span style={{ color: 'red', fontSize: '1.2em' }}>Secrets</span> among the
-				voters <span style={{ color: 'red', fontSize: '1.2em' }}>seperately</span>, as each voter ID gets
-				exactly <span style={{ color: 'red', fontSize: '1.2em' }}>one chance to vote</span>
+				Distribute Voter IDs and <span style={{ color: 'red', fontSize: '1.1em' }}>Secrets</span> among the
+				voters <span style={{ color: 'red', fontSize: '1.1em' }}>seperately</span>, as each voter ID gets
+				exactly <span style={{ color: 'red', fontSize: '1.1em' }}>one chance to vote</span>
 			</h3>
 			<h2>Candidates</h2>
 			<table>
@@ -123,28 +123,14 @@ export default ({ voterData }) => {
 			<div className='terms c-flex'>
 				<h3>Link for voters:</h3>
 				<div className='c-flex'>
-					<span
-						style={{
-							display: 'block',
-							overflowX: 'hidden',
-							textOverflow: 'ellipsis',
-							whiteSpace: 'nowrap'
-						}}
-					>{`electify.manish.codes/vote/${voterData.election_id}`}</span>
+					<span className='copy-link'>{`electify.manish.codes/vote/${voterData.election_id}`}</span>
 					<IDButton long text={`https://electify.manish.codes/vote/${voterData.election_id}`} />
 				</div>
 			</div>
 			<div className='terms c-flex'>
 				<h3>Link for results:</h3>
 				<div className='c-flex'>
-					<span
-						style={{
-							display: 'block',
-							overflowX: 'hidden',
-							textOverflow: 'ellipsis',
-							whiteSpace: 'nowrap'
-						}}
-					>{`electify.manish.codes/results/${voterData.election_id}`}</span>
+					<span className='copy-link'>{`electify.manish.codes/results/${voterData.election_id}`}</span>
 					<IDButton long text={`https://electify.manish.codes/results/${voterData.election_id}`} />
 				</div>
 			</div>
@@ -187,6 +173,13 @@ export default ({ voterData }) => {
 				</button>
 			</div>
 			<style jsx>{`
+				.copy-link {
+					display: block;
+					overflow-x: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
 				.terms {
 					width: 100%;
 					flex-flow: row wrap;
@@ -248,9 +241,21 @@ export default ({ voterData }) => {
 					background: #ff977e;
 				}
 
-				@media only screen and (max-width: 680px) {
+				@media only screen and (max-width: 850px) {
 					.downloads-container button {
 						margin-top: 20px;
+					}
+
+					.copy-link {
+						overflow-x: auto;
+						width: 60%;
+						text-overflow: clip;
+					}
+				}
+
+				@media only screen and (max-width: 850px) {
+					.copy-link {
+						width: 30%;
 					}
 				}
 

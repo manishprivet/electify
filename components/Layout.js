@@ -1,7 +1,9 @@
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useRef } from 'react';
 
 export default ({ children }) => {
+	const navList = useRef();
+
 	const toggleDarkMode = () => {
 		const style = document.body.style;
 		let lightMode = document.body.style.getPropertyValue('--background-color');
@@ -9,6 +11,15 @@ export default ({ children }) => {
 		else lightMode = lightMode === '#16161a';
 		style.setProperty('--background-color', lightMode ? '#fffffe' : '#16161a');
 		style.setProperty('--text-color', lightMode ? '#16161a' : '#fffffe');
+		style.setProperty('--invert-value', `invert(${lightMode ? 100 : 0}%)`);
+	};
+
+	const openNav = () => {
+		navList.current.classList.add('nav-show');
+	};
+
+	const closeNav = () => {
+		navList.current.classList.remove('nav-show');
 	};
 
 	return (
@@ -18,29 +29,34 @@ export default ({ children }) => {
 					<img src='/electify-logo.png' alt='logo' />
 					<span>Electify</span>
 				</div>
-
-				<ul className='c-flex'>
-					<li>
+				<div onClick={openNav} className='hamburger c-flex'>
+					<img src='/menu.svg' alt='menu' />
+				</div>
+				<ul ref={navList} className='c-flex'>
+					<li onClick={closeNav} className='back-button'>
+						<img src='/back.png' alt='menu' />
+					</li>
+					<li onClick={closeNav}>
 						<Link href='/'>
 							<a>HOME</a>
 						</Link>
 					</li>
-					<li>
+					<li onClick={closeNav}>
 						<Link href='/create'>
 							<a>CREATE</a>
 						</Link>
 					</li>
-					<li>
+					<li onClick={closeNav}>
 						<Link href='/vote'>
 							<a>VOTE</a>
 						</Link>
 					</li>
-					<li>
+					<li onClick={closeNav}>
 						<Link href='/results'>
 							<a>RESULTS</a>
 						</Link>
 					</li>
-					<li>
+					<li className='dark-mode'>
 						<img onClick={toggleDarkMode} src='/daynight.png' alt='Toggle Dark Mode' />
 					</li>
 				</ul>
@@ -51,6 +67,7 @@ export default ({ children }) => {
 					Made By <img src='/me.png' alt='Me' className='logo' />
 				</a>
 			</footer>
+			<style jsx global>{``}</style>
 			<style jsx>{`
 				.top-container {
 					position: relative;
@@ -74,6 +91,15 @@ export default ({ children }) => {
 					font-family: monospace;
 					font-size: 2em;
 					margin-left: 15px;
+				}
+
+				.hamburger {
+					display: none;
+					height: 100%;
+				}
+
+				.hamburger img {
+					height: 40px;
 				}
 
 				nav {
@@ -102,6 +128,10 @@ export default ({ children }) => {
 					filter: contrast(150%);
 				}
 
+				nav ul li.back-button {
+					display: none;
+				}
+
 				nav ul li {
 					display: inline-block;
 					margin: 0 15px;
@@ -110,9 +140,14 @@ export default ({ children }) => {
 					color: #16161a;
 				}
 
-				nav ul li img {
+				nav ul .dark-mode {
 					width: 30px;
 					cursor: pointer;
+					filter: invert(100%);
+				}
+
+				nav ul .dark-mode img {
+					width: inherit;
 				}
 
 				footer {
@@ -134,9 +169,70 @@ export default ({ children }) => {
 					color: inherit;
 					text-decoration: none;
 				}
+
 				.logo {
 					height: 2em;
 					border-radius: 50%;
+				}
+				nav ul.nav-show {
+					right: 0;
+				}
+
+				nav ul.nav-show li {
+					transform: translateX(0);
+				}
+
+				@media only screen and (max-width: 800px) {
+					.electify-logo img {
+						height: 55%;
+					}
+
+					.hamburger {
+						display: flex;
+						margin-right: 20px;
+					}
+
+					nav ul li.back-button {
+						display: block;
+					}
+
+					nav ul li.back-button img {
+						height: 2em;
+						width: 2em;
+						filter: var(--invert-value);
+					}
+
+					nav ul .dark-mode {
+						filter: var(--invert-value);
+						position: relative;
+						/* left: -10px; */
+						width: 45px;
+					}
+
+					nav ul {
+						height: 100%;
+						width: 100%;
+						top: 0;
+						right: -130%;
+						z-index: 1800;
+						position: fixed;
+						flex-flow: column nowrap;
+						background: var(--background-color);
+						margin: 0;
+						transition: 0.5s ease-out;
+					}
+
+					nav ul li {
+						color: #fff;
+						margin: 30px 0 0 0;
+						transform: translateX(200%);
+						transition: 0.8s ease-out;
+						transform-origin: 0 0;
+					}
+
+					.nav-show li a {
+						color: var(--text-color);
+					}
 				}
 			`}</style>
 		</div>
