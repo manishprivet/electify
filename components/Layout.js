@@ -1,17 +1,25 @@
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default ({ children }) => {
 	const toggleDarkMode = () => {
 		const style = document.body.style;
-		style.setProperty('--background-color', '#fffffe');
-		style.setProperty('--text-color', '#16161a');
+		let lightMode = document.body.style.getPropertyValue('--background-color');
+		if (!lightMode) lightMode = true;
+		else lightMode = lightMode === '#16161a';
+		style.setProperty('--background-color', lightMode ? '#fffffe' : '#16161a');
+		style.setProperty('--text-color', lightMode ? '#16161a' : '#fffffe');
 	};
 
 	return (
-		<div className='top-container'>
+		<div className='top-container c-flex'>
 			<nav>
-				<img className='electify-logo' src='/electify-logo.png' alt='logo' />
-				<ul>
+				<div className='electify-logo c-flex'>
+					<img src='/electify-logo.png' alt='logo' />
+					<span>Electify</span>
+				</div>
+
+				<ul className='c-flex'>
 					<li>
 						<Link href='/'>
 							<a>HOME</a>
@@ -23,13 +31,13 @@ export default ({ children }) => {
 						</Link>
 					</li>
 					<li>
-						<Link href='/results'>
-							<a>RESULTS</a>
+						<Link href='/vote'>
+							<a>VOTE</a>
 						</Link>
 					</li>
 					<li>
-						<Link href='/aboutme'>
-							<a>ABOUT ME</a>
+						<Link href='/results'>
+							<a>RESULTS</a>
 						</Link>
 					</li>
 					<li>
@@ -38,8 +46,8 @@ export default ({ children }) => {
 				</ul>
 			</nav>
 			{children}
-			<footer>
-				<a href='https://manishprivet.github.io' target='_blank' rel='noopener noreferrer'>
+			<footer className='c-flex'>
+				<a className='c-flex' href='https://manishprivet.github.io' target='_blank' rel='noopener noreferrer'>
 					Made By <img src='/me.png' alt='Me' className='logo' />
 				</a>
 			</footer>
@@ -47,18 +55,25 @@ export default ({ children }) => {
 				.top-container {
 					position: relative;
 					min-height: 100vh;
-					display: flex;
 					flex-direction: column;
-					justify-content: center;
-					align-items: center;
 				}
 
 				.electify-logo {
-					height: 65%;
-					object-fit: cover;
+					height: 100%;
 					justify-self: start;
 					margin-right: auto;
 					margin-left: 25px;
+				}
+
+				.electify-logo img {
+					height: 65%;
+					object-fit: cover;
+				}
+
+				.electify-logo span {
+					font-family: monospace;
+					font-size: 2em;
+					margin-left: 15px;
 				}
 
 				nav {
@@ -77,8 +92,6 @@ export default ({ children }) => {
 				nav ul {
 					list-style: none;
 					margin-right: 15px;
-					display: flex;
-					align-items: center;
 				}
 
 				nav ul a {
@@ -106,9 +119,6 @@ export default ({ children }) => {
 					width: 100%;
 					height: 100px;
 					border-top: 1px solid var(--highlight-color);
-					display: flex;
-					justify-content: center;
-					align-items: center;
 					color: var(--text-color);
 				}
 
@@ -117,9 +127,6 @@ export default ({ children }) => {
 				}
 
 				footer a {
-					display: flex;
-					justify-content: center;
-					align-items: center;
 					font-size: 1.5em;
 				}
 

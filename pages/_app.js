@@ -3,11 +3,11 @@ function MyApp({ Component, pageProps }) {
 		<div>
 			<Component {...pageProps} />
 			<style jsx global>{`
-				:root {
+				body {
 					--button-color: #00d1c7;
 					--text-color: #fffffe;
 					--background-color: #16161a;
-					--highlight-color: #eaeaea;
+					--highlight-color: #777;
 					--invert-value: invert(100%);
 				}
 
@@ -18,6 +18,12 @@ function MyApp({ Component, pageProps }) {
 					font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
 						Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 					background: var(--background-color);
+				}
+
+				.c-flex {
+					display: flex;
+					align-items: center;
+					justify-content: center;
 				}
 
 				.container {

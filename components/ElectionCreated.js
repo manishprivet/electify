@@ -1,18 +1,7 @@
-export default ({ voterData }) => {
-	function copy(text, id) {
-		var input = document.createElement('input');
-		input.setAttribute('value', text);
-		document.body.appendChild(input);
-		input.select();
-		var result = document.execCommand('copy');
-		document.body.removeChild(input);
-		document.getElementById(id).style.setProperty('--text-content', '"Copied"');
-		return result;
-	}
+import Countdown from './Countdown';
+import IDButton from './IDButton';
 
-	function exit(id) {
-		setTimeout(() => document.getElementById(id).style.setProperty('--text-content', '"Click to Copy"'), 200);
-	}
+export default ({ voterData }) => {
 	function downloadObjectAsJson(exportObj, exportName) {
 		var dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(exportObj));
 		var downloadAnchorNode = document.createElement('a');
@@ -76,48 +65,21 @@ export default ({ voterData }) => {
 	return (
 		<main className='container'>
 			<h1>Election Created</h1>
-			<div className='terms'>
+			<div className='terms c-flex'>
 				<h3>Election Name:</h3>
-				<div>
-					<span id='election-name'>{voterData.display_name}</span>
-					<button
-						id='copy-name-button'
-						onMouseOut={() => exit('copy-name-button')}
-						onClick={() => copy(voterData.display_name, 'copy-name-button')}
-					>
-						Copy
-					</button>
+				<div className='c-flex'>
+					<span>{voterData.display_name}</span>
+					<IDButton text={voterData.display_name} />
 				</div>
 			</div>
-			<div className='terms'>
+			<div className='terms c-flex'>
 				<h3>Your unique Election ID:</h3>
-				<div>
-					<span id='election-id'>{voterData.election_id}</span>
-					<button
-						id='copy-id-button'
-						onMouseOut={() => exit('copy-id-button')}
-						onClick={() => copy(voterData.election_id, 'copy-id-button')}
-					>
-						Copy
-					</button>
+				<div className='c-flex'>
+					<span>{voterData.election_id}</span>
+					<IDButton text={voterData.election_id} />
 				</div>
 			</div>
-			<h2>Candidates</h2>
-			<table>
-				<tbody>
-					<tr>
-						<th>Candidate Name</th>
-						<th>Number of Votes</th>
-					</tr>
-					{voterData.candidates.map((candidate, index) => (
-						<tr key={candidate.name + index}>
-							<td>{candidate.name}</td>
-							<td>{candidate.votes}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-			<h2>Voters</h2>
+			<h2>Download the Voter Data</h2>
 			<div className='downloads-container'>
 				<button onClick={() => downloadObjectAsJson(voterData.voters, voterData.election_id)}>
 					Download JSON
@@ -133,6 +95,61 @@ export default ({ voterData }) => {
 					Download CSV
 				</button>
 			</div>
+
+			<h3>
+				This is the <span style={{ color: 'red', fontSize: '1.2em' }}>only time</span> you'll be seeing this
+				list. So <span style={{ color: 'red', fontSize: '1.2em' }}>download it</span> at a safe location.
+			</h3>
+			<h3>
+				Distribute Voter IDs and <span style={{ color: 'red', fontSize: '1.2em' }}>Secrets</span> among the
+				voters <span style={{ color: 'red', fontSize: '1.2em' }}>seperately</span>, as each voter ID gets
+				exactly <span style={{ color: 'red', fontSize: '1.2em' }}>one chance to vote</span>
+			</h3>
+			<h2>Candidates</h2>
+			<table>
+				<tbody>
+					<tr>
+						<th>Candidate Name</th>
+						<th>Number of Votes</th>
+					</tr>
+					{voterData.candidates.map((candidate, index) => (
+						<tr key={candidate.name + index}>
+							<td>{candidate.name}</td>
+							<td>{candidate.votes}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+			<div className='terms c-flex'>
+				<h3>Link for voters:</h3>
+				<div className='c-flex'>
+					<span
+						style={{
+							display: 'block',
+							overflowX: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+						}}
+					>{`electify.manish.codes/vote/${voterData.election_id}`}</span>
+					<IDButton long text={`https://electify.manish.codes/vote/${voterData.election_id}`} />
+				</div>
+			</div>
+			<div className='terms c-flex'>
+				<h3>Link for results:</h3>
+				<div className='c-flex'>
+					<span
+						style={{
+							display: 'block',
+							overflowX: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+						}}
+					>{`electify.manish.codes/results/${voterData.election_id}`}</span>
+					<IDButton long text={`https://electify.manish.codes/results/${voterData.election_id}`} />
+				</div>
+			</div>
+			<h2>Voters</h2>
+
 			<table>
 				<tbody>
 					<tr>
@@ -151,7 +168,7 @@ export default ({ voterData }) => {
 				This will expire in: <br />
 				<Countdown
 					style={{ color: 'red', fontFamily: 'monospace', fontSize: '1.2em' }}
-					epoch={data.expiration_time}
+					epoch={voterData.expiration_time}
 				/>
 			</h2>
 			<div className='downloads-container'>
@@ -171,11 +188,8 @@ export default ({ voterData }) => {
 			</div>
 			<style jsx>{`
 				.terms {
-					display: flex;
 					width: 100%;
 					flex-flow: row wrap;
-					justify-content: center;
-					align-items: center;
 					font-size: 1.3em;
 				}
 
@@ -195,55 +209,8 @@ export default ({ voterData }) => {
 					color: black;
 				}
 
-				#copy-id-button {
-					--text-content: "Click to copy";
-				}
-
-				#copy-name-button {
-					--text-content: "Click to copy";
-				}
-
-				.terms button {
-					position: relative;
-					background: none;
-					border: 1px solid var(--text-color);
-					padding: 7px 25px;
-					color: var(--text-color);
-					font-size: 1em;
-					margin: 0 15px;
-					border-radius: 20px;
-					outline: none;
-				}
-
-				.terms button:hover {
-					cursor: pointer;
-				}
-
-				.terms button:hover::after {
-					visibility: visible;
-					opacity: 1;
-					transform: translateY(-180%) translateX(-35%);
-				}
-
-				.terms button::after {
-					content: var(--text-content);
-					position: absolute;
-					height: 100%;
-					width: 100%;
-					border: none;
-					margin: 0;
-					padding: 5px 15px;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					font-size: 0.8em;
-					background: #000000df;
-					border-radius: 10px;
-					transform: translateY(-180%) translateX(-35%);
-					visibility: hidden;
-					opacity: 0;
-					transition: all 0.2s ease-out;
-					pointer-events: none;
+				.terms div {
+					flex-flow: row wrap;
 				}
 
 				.downloads-container {

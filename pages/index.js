@@ -11,6 +11,7 @@ export default function Home() {
 			</Head>
 
 			<main>
+				<img src='/electify-logo.png' alt='logo' />
 				<h1 className='title'>
 					Welcome to <a href='https://electify.manish.codes'>Electify!</a>
 				</h1>
@@ -22,16 +23,16 @@ export default function Home() {
 							<p>Create an anonymous election</p>
 						</a>
 					</Link>
-					<Link href='/results'>
-						<a className='card'>
-							<h3>View Election Results</h3>
-							<p>View Results of existing election</p>
-						</a>
-					</Link>
 					<Link href='/vote'>
 						<a className='card'>
 							<h3>Vote for an Election</h3>
 							<p>Keep your Election ID, Voter ID and Voter Secret ready</p>
+						</a>
+					</Link>
+					<Link href='/results'>
+						<a className='card'>
+							<h3>View Election Results</h3>
+							<p>View Results of existing election</p>
 						</a>
 					</Link>
 				</div>
@@ -46,11 +47,18 @@ export default function Home() {
 					justify-content: center;
 					align-items: center;
 					color: var(--text-color);
+					margin-top: 80px;
+				}
+
+				main img {
+					width: 30%;
 				}
 
 				.title a {
 					color: var(--button-color);
 					text-decoration: none;
+					font-family: monospace;
+					font-size: 1.2em;
 				}
 
 				.title a:hover,
@@ -63,6 +71,7 @@ export default function Home() {
 					margin: 0;
 					line-height: 1.15;
 					font-size: 4rem;
+					margin-top: 20px;
 				}
 
 				.title,
@@ -127,9 +136,18 @@ export default function Home() {
 				}
 
 				@media (max-width: 600px) {
+					.title {
+						font-size: 3em;
+						margin: 20px 40px;
+					}
+
 					.grid {
 						width: 100%;
 						flex-direction: column;
+					}
+
+					.card {
+						width: 65%;
 					}
 				}
 			`}</style>

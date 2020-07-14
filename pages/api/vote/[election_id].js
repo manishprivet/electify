@@ -26,7 +26,9 @@ export default async (req, res) => {
 							success: true,
 							display_name: data.Item.display_name,
 							candidates: data.Item.candidates,
-							expiration_time: data.Item.expiration_time
+							expiration_time: data.Item.expiration_time,
+							total_votes: totalVotes(data.Item.candidates),
+							voters_remaining: data.Item.voters.length
 						});
 					}
 					return res.json({ success: false, error: 'Wrong Election ID' });
@@ -41,6 +43,12 @@ export default async (req, res) => {
 const error = (err, res) => {
 	console.log(err);
 	res.json({ success: false, error: true });
+};
+
+const totalVotes = (candidates) => {
+	let total = 0;
+	candidates.forEach((candidate) => (total += candidate.votes));
+	return total;
 };
 
 export const config = {
