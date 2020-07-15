@@ -34,9 +34,9 @@ export default ({ data }) => {
 				</div>
 			))}
 			{data.voters_remaining ? data.auth_type === 'gsuite' ? (
-				<h2>
+				<h2 style={{ textAlign: 'center' }}>
 					<span style={{ color: 'var(--button-color)' }}>{data.total_votes}</span> people of your domain have{' '}
-					voted till now<br />and{' '}
+					voted till now and<br />
 					{winners.length > 1 ? (
 						<span>
 							{winners.map((winner, i) => (
@@ -47,15 +47,16 @@ export default ({ data }) => {
 									</span>
 								</span>
 							))}
-							are
+							<br />
+							are{' '}
 						</span>
 					) : (
 						<span>
 							<span style={{ color: 'var(--button-color)', fontSize: '1.2em' }}>{winners[0].name}</span>
-							is
+							<br />is{' '}
 						</span>
-					)}{' '}
-					currently in lead.
+					)}
+					currently in lead
 				</h2>
 			) : (
 				<h2>

@@ -8,6 +8,8 @@ export default ({ data, vote, errors, setErrors }) => {
 	const [ cIndex, setCIndex ] = useState(-1);
 
 	const responseGoogle = (response) => {
+		console.log(response);
+		if (response.error === 'idpiframe_initialization_failed') return;
 		if (response.error) return setErrors('Oops! Something went wrong with email verification.');
 		vote({ cIndex, authType: data.auth_type, tokenId: response.tokenId });
 	};
