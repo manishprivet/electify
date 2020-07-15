@@ -62,7 +62,6 @@ export default ({ createElection }) => {
 	};
 
 	const createElectionData = () => {
-		console.log(authType);
 		if (
 			!electionName ||
 			!electionId ||
@@ -157,7 +156,10 @@ export default ({ createElection }) => {
 			<div ref={emailBox} className='emails c-flex'>
 				<label htmlFor='emails'>Enter emails seperated by commas</label>
 				<p>We'll ask voters to verify their email by google.</p>
-				<textarea placeholder='email1@gmail.com,email2@gmail.com' onChange={(e) => setEmails(e.target.value)} />
+				<textarea
+					placeholder='email1@gmail.com,email2@gmail.com,email3...'
+					onChange={(e) => setEmails(e.target.value)}
+				/>
 			</div>
 			<div ref={gsuiteBox} className='voters'>
 				<label htmlFor='gsuite-domain'>Gsuite Domain Name</label>
@@ -262,7 +264,8 @@ export default ({ createElection }) => {
 					transform: scale(1, 1);
 				}
 
-				.emails p {
+				.emails p,
+				.voters p {
 					color: var(--highlight-color);
 					font-size: 1.2em;
 					justify-self: start;

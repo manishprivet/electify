@@ -66,6 +66,9 @@ export default ({ children }) => {
 				<a className='c-flex' href='https://manishprivet.github.io' target='_blank' rel='noopener noreferrer'>
 					Made By <img src='/me.png' alt='Me' className='logo' />
 				</a>
+				<a href='/PrivacyPolicyElectify.pdf' target='_blank'>
+					Privacy Policy
+				</a>
 			</footer>
 			<style jsx global>{``}</style>
 			<style jsx>{`
@@ -163,6 +166,13 @@ export default ({ children }) => {
 
 				footer a {
 					font-size: 1.5em;
+					color: var(--text-color);
+				}
+
+				footer a:last-child {
+					font-size: 1em;
+					color: var(--highlight-color);
+					margin-left: 20px;
 				}
 
 				a {

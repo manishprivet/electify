@@ -42,6 +42,7 @@ export default ({ data, vote, errors, setErrors }) => {
 			<label htmlFor='candidate-list'>Candidates</label>
 			<RadioButton array={data.candidates} id='candidate-list' objectKey='name' setIndex={setCIndex} />
 			{errors ? <p className='error'>{errors}</p> : null}
+
 			{data.auth_type === 'secret' ? (
 				<button onClick={() => vote({ voterId, voterSecret, cIndex, authType: 'secret' })}>VOTE</button>
 			) : (
@@ -63,6 +64,22 @@ export default ({ data, vote, errors, setErrors }) => {
 					scope='email'
 				/>
 			)}
+			{data.auth_type === 'secret' ? null : (
+				<p className='privacy'>
+					We're only asking your email for verification purpose. We do not use it for any marketing or
+					spamming purposes. We do not collect any of your data other than your email and store it only till
+					an election is valid.
+				</p>
+			)}
+			<style jsx>{`
+				.privacy {
+					color: var(--highlight-color);
+					font-size: 1.2em;
+					justify-self: start;
+					margin-right: auto;
+					margin-left: 10px;
+				}
+			`}</style>
 		</div>
 	);
 };

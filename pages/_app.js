@@ -39,8 +39,7 @@ function MyApp({ Component, pageProps }) {
 					color: var(--text-color);
 					margin-top: 60px;
 					margin-bottom: 40px;
-					overflow-x: hidden;
-					overflow-y: visible;
+					overflow: hidden;
 				}
 
 				.container h1 {
@@ -113,6 +112,15 @@ function MyApp({ Component, pageProps }) {
 					color: var(--background-color);
 					background: var(--button-color);
 					box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.4);
+				}
+
+				.container button:disabled {
+					opacity: 0.5;
+				}
+
+				.container button:disabled:hover {
+					color: var(--button-color);
+					background: none;
 				}
 
 				.error {
