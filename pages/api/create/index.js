@@ -8,28 +8,39 @@ AWS.config.update({
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 const table = 'electify';
-const pattern = /^(?![0-9]+$)(?!.*-$)(?!-)[a-zA-Z0-9-]{1,63}$/g;
+const pattern = /^[a-zA-Z]+$/;
 
 export default async (req, res) => {
 	switch (req.method) {
 		case 'POST':
 			{
 				try {
-					let { display_name, election_name, no_of_voters, candidates, auth_type, emails } = req.body;
-					console.log(auth_type, emails, no_of_voters);
+					let {
+						display_name,
+						election_name,
+						no_of_voters,
+						candidates,
+						auth_type,
+						emails,
+						gsuite_domain
+					} = req.body;
 					if (
 						!display_name ||
 						!election_name ||
 						no_of_voters > 10000 ||
 						!pattern.test(election_name) ||
 						!auth_type ||
-						(auth_type == 'secret' && !/^\d+$/.test(no_of_voters) && !no_of_voters) ||
-						(auth_type == 'google' && !emails)
+						(auth_type === 'secret' && !/^\d+$/.test(no_of_voters) && !no_of_voters) ||
+						(auth_type === 'google' && !emails) ||
+						(auth_type === 'gsuite' && !gsuite_domain)
 					)
 						return res.status(400).json({ success: false, error: false });
 					election_name = election_name.toLowerCase();
-					emails = emails.split(' ').join('');
-					emails = emails.toLowerCase();
+					if (auth_type === 'google') {
+						emails = emails.split(' ').join('');
+						emails = emails.toLowerCase();
+						emails = emails.slice(-1) === ',' ? emails.slice(0, -1) : emails;
+					}
 					const response = await createElection(
 						display_name,
 						election_name,
@@ -37,6 +48,7 @@ export default async (req, res) => {
 						candidates,
 						auth_type,
 						emails,
+						gsuite_domain,
 						0
 					);
 					res.json(response);
@@ -50,7 +62,16 @@ export default async (req, res) => {
 	}
 };
 
-function createElection(display_name, election_name, no_of_voters, candidates, auth_type, emails, count) {
+function createElection(
+	display_name,
+	election_name,
+	no_of_voters,
+	candidates,
+	auth_type,
+	emails,
+	gsuite_domain,
+	count
+) {
 	return new Promise(async (resolve, reject) => {
 		const election_id = election_name + '-' + generateRowId(1);
 		const getParams = {
@@ -68,6 +89,7 @@ function createElection(display_name, election_name, no_of_voters, candidates, a
 					candidates,
 					auth_type,
 					emails,
+					gsuite_domain,
 					count + 1
 				);
 				resolve(response);
@@ -83,13 +105,14 @@ function createElection(display_name, election_name, no_of_voters, candidates, a
 							voter_id: election_name + '-' + i,
 							voter_secret: election_name + '-' + words[i]
 						});
-				} else voters = emails.split(',');
+				} else if (auth_type === 'gsuite') voters = [ gsuite_domain ];
+				else voters = emails.split(',');
 				candidates.forEach((candidate) => (candidate.votes = 0));
 				const now = new Date();
 				const expiration_time = Math.floor(now.getTime() / 1000) + 604800;
 				const putParams = {
 					TableName: table,
-					Item: { election_id, voters, display_name, expiration_time, candidates, auth_type }
+					Item: { election_id, voters, display_name, expiration_time, candidates, auth_type, voted: [] }
 				};
 				docClient.put(putParams, function(err, _) {
 					if (err) reject(err);

@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-const { OAuth2Client, auth } = require('google-auth-library');
+const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 
 AWS.config.update({
@@ -21,7 +21,7 @@ export default async (req, res) => {
 					c_index === undefined ||
 					!auth_type ||
 					(auth_type == 'secret' && !voter_id && !voter_secret) ||
-					(auth_type == 'google' || ('gsuite' && !token_id))
+					((auth_type == 'google' || auth_type == 'gsuite') && !token_id)
 				)
 					return res.status(400).json({ success: false, error: 'Incomplete Params' });
 				election_id = election_id.toLowerCase();
@@ -36,29 +36,35 @@ export default async (req, res) => {
 						if (auth_type === 'secret')
 							index = data.Item.voters.findIndex((voter) => voter.voter_id === voter_id);
 						else {
-							const { email } = await verifyIdToken(token_id);
-							index = data.Item.voters.indexOf(email);
+							const { email, hd } = await verifyIdToken(token_id);
+							index = data.Item.voters.indexOf(auth_type === 'gsuite' ? hd : email);
+							if (data.Item.voted.indexOf(email) >= 0) index = -2;
+							index < 0 ? null : data.Item.voted.push(email);
 						}
-						if (index === -1)
+						if (index < 0)
 							return res.json({
 								success: false,
-								error: auth_type === 'secret' ? 'Wrong Voter ID' : 'Wrong Email Address'
+								error:
+									auth_type === 'secret'
+										? 'Wrong Voter ID'
+										: index === -2 ? 'Looks like you already voted' : 'Wrong Email Address'
 							});
 						if (c_index >= data.Item.candidates.length)
 							return res.json({ success: false, error: 'Bad Candidate' });
 						if (auth_type !== 'secret' || data.Item.voters[index].voter_secret === voter_secret) {
-							data.Item.voters.splice(index, 1);
+							if (auth_type !== 'gsuite') data.Item.voters.splice(index, 1);
 							const updateParams = {
 								TableName: table,
 								Key: { election_id },
-								UpdateExpression: `set voters = :r, candidates[${c_index}].votes=:p`,
+								UpdateExpression: `set voters = :r, candidates[${c_index}].votes=:p, voted=:q`,
 								ExpressionAttributeValues: {
 									':r': data.Item.voters,
-									':p': data.Item.candidates[c_index].votes + 1
+									':p': data.Item.candidates[c_index].votes + 1,
+									':q': data.Item.voted
 								},
 								ReturnValues: 'UPDATED_NEW'
 							};
-							return docClient.update(updateParams, function(err, data) {
+							return docClient.update(updateParams, function(err, _) {
 								if (err) return error(err, res);
 								return res.json({ success: true });
 							});
@@ -70,13 +76,13 @@ export default async (req, res) => {
 			}
 			break;
 		default:
-			return res.status(405).json({ success: false, error: false });
+			return res.status(405).json({ success: false, error: 'Bad Request' });
 	}
 };
 
 const error = (err, res) => {
 	console.log(err);
-	res.json({ success: false, error: true });
+	res.json({ success: false, error: 'Internal Server Error' });
 };
 
 function verifyIdToken(token) {
@@ -84,14 +90,10 @@ function verifyIdToken(token) {
 		try {
 			const ticket = await client.verifyIdToken({
 				idToken: token,
-				audience: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID // Specify the CLIENT_ID of the app that accesses the backend
-				// Or, if multiple clients access the backend:
-				//[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+				audience: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
 			});
 			const payload = ticket.getPayload();
-			const userid = payload['sub'];
 			resolve(payload);
-			console.log(payload, userid);
 		} catch (err) {
 			reject(err);
 		}

@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import RadioButton from './RadioButton';
 
-const pattern = /^(?![0-9]+$)(?!.*-$)(?!-)[a-zA-Z0-9-]{1,63}$/g;
+const pattern = /^[a-zA-Z]+$/;
 
 export default ({ createElection }) => {
 	const [ electionName, setElectionName ] = useState('');
@@ -12,15 +12,23 @@ export default ({ createElection }) => {
 	const [ errors, setErrors ] = useState('');
 	const [ authType, setAuthType ] = useState(-1);
 	const [ emails, setEmails ] = useState('');
+	const [ gsuite, setGsuite ] = useState('');
 	const newCandidateBox = useRef();
 	const emailBox = useRef();
 	const noOfVotersBox = useRef();
+	const gsuiteBox = useRef();
 
 	const setAuthenticationType = (i) => {
 		if (i == 0) {
+			gsuiteBox.current.classList.remove('active');
 			noOfVotersBox.current.classList.remove('active');
 			emailBox.current.classList.add('active');
+		} else if (i == 1) {
+			gsuiteBox.current.classList.add('active');
+			emailBox.current.classList.remove('active');
+			noOfVotersBox.current.classList.remove('active');
 		} else {
+			gsuiteBox.current.classList.remove('active');
 			emailBox.current.classList.remove('active');
 			noOfVotersBox.current.classList.add('active');
 		}
@@ -54,27 +62,29 @@ export default ({ createElection }) => {
 	};
 
 	const createElectionData = () => {
+		console.log(authType);
 		if (
 			!electionName ||
 			!electionId ||
 			authType < 0 ||
-			(authType == 1 && !noOfVoters) ||
+			(authType == 2 && !noOfVoters) ||
 			(authType == 0 && !emails) ||
+			(authType == 1 && !gsuite) ||
 			!candidates.length
 		)
 			return setErrors('All values are required.');
-		if (!pattern.test(electionId))
-			return setErrors(`Election id only contain characters between 0-9, a-z, A-Z and hyphen(-)`);
+		if (!pattern.test(electionId)) return setErrors(`Election id can only contain alphabets`);
 		if (noOfVoters > 10000) return setErrors(`Number of voters can't be more than`);
 		const c = [ ...candidates ];
 		c.forEach((candidate, index) => (candidate.name === '' ? c.splice(index, 1) : null));
 		const data = {
-			display_name: electionName,
-			election_name: electionId.toLowerCase(),
+			display_name: electionName.trim(),
+			election_name: electionId.toLowerCase().trim(),
 			no_of_voters: noOfVoters,
 			candidates: c,
-			auth_type: authType == 0 ? 'google' : 'secret',
-			emails: emails
+			auth_type: authType == 0 ? 'google' : authType == 1 ? 'gsuite' : 'secret',
+			emails: emails.trim(),
+			gsuite_domain: gsuite.trim()
 		};
 		createElection(data);
 	};
@@ -140,17 +150,30 @@ export default ({ createElection }) => {
 			</div>
 			<label htmlFor='auth-type'>Select Auth Type</label>
 			<RadioButton
-				array={[ 'Google Email', 'Voter ID and Secret' ]}
+				array={[ 'Google / Gsuite Email', 'Gsuite Domain', 'Voter ID and Secret' ]}
 				setIndex={setAuthenticationType}
 				id='auth-type'
 			/>
 			<div ref={emailBox} className='emails c-flex'>
 				<label htmlFor='emails'>Enter emails seperated by commas</label>
 				<p>We'll ask voters to verify their email by google.</p>
-				<textarea onChange={(e) => setEmails(e.target.value)} />
+				<textarea placeholder='email1@gmail.com,email2@gmail.com' onChange={(e) => setEmails(e.target.value)} />
+			</div>
+			<div ref={gsuiteBox} className='voters'>
+				<label htmlFor='gsuite-domain'>Gsuite Domain Name</label>
+				<p>We'll ask voters to verify their email by google.</p>
+				<input
+					onKeyPress={(e) => (e.charCode === 13 ? createElectionData() : null)}
+					onChange={(e) => setGsuite(e.target.value)}
+					type='text'
+					id='gsuite-domain'
+					placeholder={`gsuitedomain.com`}
+				/>
+				<span />
 			</div>
 			<div ref={noOfVotersBox} className='voters'>
 				<label htmlFor='no-of-voters'>Number of Voters</label>
+				<p>Each voter will get a id and secret upon Election Creation.</p>
 				<input
 					onKeyPress={(e) => (e.charCode === 13 ? createElectionData() : null)}
 					onChange={(e) => setNoOfVoters(e.target.value)}
@@ -248,7 +271,7 @@ export default ({ createElection }) => {
 				}
 
 				.emails textarea {
-					width: 96%;
+					width: 90%;
 					height: 150px;
 					resize: vertical;
 					margin: 10px 0;

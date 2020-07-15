@@ -33,7 +33,31 @@ export default ({ data }) => {
 					<ProgressBar total={data.total_votes} progress={candidate.votes} />
 				</div>
 			))}
-			{data.voters_remaining ? (
+			{data.voters_remaining ? data.auth_type === 'gsuite' ? (
+				<h2>
+					<span style={{ color: 'var(--button-color)' }}>{data.total_votes}</span> people of your domain have{' '}
+					voted till now<br />and{' '}
+					{winners.length > 1 ? (
+						<span>
+							{winners.map((winner, i) => (
+								<span key={i} style={{ color: 'var(--button-color)', fontSize: '1.2em' }}>
+									{winner.name}
+									<span style={{ color: 'var(--text-color)', fontSize: '1em' }}>
+										{i === winners.length - 2 ? ' and ' : i === winners.length - 1 ? '' : ', '}
+									</span>
+								</span>
+							))}
+							are
+						</span>
+					) : (
+						<span>
+							<span style={{ color: 'var(--button-color)', fontSize: '1.2em' }}>{winners[0].name}</span>
+							is
+						</span>
+					)}{' '}
+					currently in lead.
+				</h2>
+			) : (
 				<h2>
 					<span style={{ color: 'var(--button-color' }}>{data.voters_remaining}</span> out of{' '}
 					<span style={{ color: 'var(--button-color' }}>{data.voters_remaining + data.total_votes}</span>{' '}

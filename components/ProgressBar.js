@@ -5,7 +5,6 @@ export default ({ progress, total }) => {
 	useEffect(
 		() => {
 			const percentage = Math.floor(progress * 100 / total);
-			console.log(progress, total, percentage);
 			let p = 0;
 			const i = setInterval(() => {
 				bar.current.style.setProperty('width', `${p++}%`);

@@ -9,8 +9,7 @@ export default ({ data, vote, errors, setErrors }) => {
 
 	const responseGoogle = (response) => {
 		if (response.error) return setErrors('Oops! Something went wrong with email verification.');
-		console.log(response.tokenId);
-		vote({ cIndex, authType: 'google', tokenId: response.tokenId });
+		vote({ cIndex, authType: data.auth_type, tokenId: response.tokenId });
 	};
 
 	return (
