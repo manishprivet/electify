@@ -30,6 +30,19 @@ module.exports = {
     'react/prop-types': 0,
     'react/jsx-props-no-spreading': ['error', { custom: 'ignore' }],
     'prettier/prettier': 'error',
+    'react/react-in-jsx-scope': 'off',
+    'no-nested-ternary': 'off',
+    'react/display-name': 'off',
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        labelComponents: [],
+        labelAttributes: [],
+        controlComponents: [],
+        assert: 'either',
+        depth: 25,
+      },
+    ],
   },
   settings: {
     'import/resolver': {

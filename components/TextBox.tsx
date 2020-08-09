@@ -1,30 +1,22 @@
-import { LegacyRef } from "react";
+import { LegacyRef } from 'react';
 
-export default ({
-  changeValue,
-  action,
-  ref,
-  label,
-  desc,
-  id,
-  placeholder,
-}: {
-  changeValue: Function;
-  action: Function;
+const TextBox: React.FC<{
+  changeValue: (string: string) => unknown;
+  action: () => unknown;
   ref: LegacyRef<HTMLDivElement>;
   label: string;
   desc: string;
   id: string;
   placeholder: string;
-}) => {
+}> = ({ changeValue, action, ref, label, desc, id, placeholder }) => {
   return (
-    <div ref={ref} className='input-div'>
+    <div ref={ref} className="input-div">
       <label htmlFor={id}>{label}</label>
       {desc ? <p>{desc}</p> : null}
       <input
         onKeyPress={(e) => (e.charCode === 13 ? action() : null)}
         onChange={(e) => changeValue(e.target.value)}
-        type='text'
+        type="text"
         id={id}
         placeholder={placeholder}
       />
@@ -56,7 +48,7 @@ export default ({
         }
 
         .input-div input + span {
-          content: "";
+          content: '';
           position: relative;
           width: 0%;
           height: 0;
@@ -81,3 +73,5 @@ export default ({
     </div>
   );
 };
+
+export default TextBox;

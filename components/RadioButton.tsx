@@ -1,31 +1,25 @@
-export default ({
-  id,
-  array,
-  setIndex,
-  objectKey,
-}: {
+/* eslint-disable react/no-array-index-key */
+const App: React.FC<{
   id: string;
-  array: Array<string | object>;
-  setIndex: Function;
+  array: Array<string | Record<string, unknown>>;
+  setIndex: React.Dispatch<React.SetStateAction<number>>;
   objectKey?: string;
-}) => {
+}> = ({ id, array, setIndex, objectKey }) => {
   return (
-    <ul className='radio-buttons' id={id}>
+    <ul className="radio-buttons" id={id}>
       {array.map((item, index) => (
         <li key={`item-${index}`}>
           <input
-            onChange={(e) => setIndex(e.target.value)}
-            type='radio'
+            onChange={(e) => setIndex(parseInt(e.target.value, 10))}
+            type="radio"
             id={`${index}-option`}
-            name='selector'
+            name="selector"
             value={index}
           />
           <label htmlFor={`${index}-option`}>
             {typeof item === typeof {} ? item[objectKey] : item}
           </label>
-          <div className='check'>
-            {index === 0 ? <div className='inside' /> : null}
-          </div>
+          <div className="check">{index === 0 ? <div className="inside" /> : null}</div>
         </li>
       ))}
       <style jsx>{`
@@ -48,7 +42,7 @@ export default ({
           border-bottom: 1px solid #333;
         }
 
-        .radio-buttons li input[type="radio"] {
+        .radio-buttons li input[type='radio'] {
           position: absolute;
           visibility: hidden;
         }
@@ -91,7 +85,7 @@ export default ({
         .radio-buttons li .check::before {
           display: block;
           position: absolute;
-          content: "";
+          content: '';
           border-radius: 100%;
           height: 15px;
           width: 15px;
@@ -102,18 +96,20 @@ export default ({
           -webkit-transition: background 0.2s linear;
         }
 
-        .radio-buttons input[type="radio"]:checked ~ .check {
+        .radio-buttons input[type='radio']:checked ~ .check {
           border: 5px solid var(--button-color);
         }
 
-        .radio-buttons input[type="radio"]:checked ~ .check::before {
+        .radio-buttons input[type='radio']:checked ~ .check::before {
           background: var(--button-color);
         }
 
-        .radio-buttons input[type="radio"]:checked ~ label {
+        .radio-buttons input[type='radio']:checked ~ label {
           color: var(--button-color);
         }
       `}</style>
     </ul>
   );
 };
+
+export default App;

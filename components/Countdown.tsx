@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import CSS from "csstype";
+import { useEffect, useState } from 'react';
+import CSS from 'csstype';
 
-export default ({ epoch, style }: { epoch: number; style: CSS.Properties }) => {
+const App: React.FC<{ epoch: number; style: CSS.Properties }> = ({ epoch, style }) => {
   const [state, setState] = useState({
-    day: "--",
-    hrs: "--",
-    mins: "--",
-    sec: "--",
+    day: '--',
+    hrs: '--',
+    mins: '--',
+    sec: '--',
   });
 
   useEffect(() => {
@@ -30,3 +30,5 @@ export default ({ epoch, style }: { epoch: number; style: CSS.Properties }) => {
     >{`${state.day} Days ${state.hrs} Hours ${state.mins} Minutes ${state.sec} Seconds`}</span>
   );
 };
+
+export default App;

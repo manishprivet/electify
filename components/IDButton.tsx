@@ -1,28 +1,25 @@
-import { useRef } from "react";
+import { useRef } from 'react';
 
-export default ({ text, long }: { text: string; long?: boolean }) => {
+const App: React.FC<{ text: string; long?: boolean }> = ({ text, long }) => {
   const btn = useRef<HTMLInputElement>();
 
   const copy = () => {
-    var input = document.createElement("input");
-    input.setAttribute("value", text);
+    const input = document.createElement('input');
+    input.setAttribute('value', text);
     document.body.appendChild(input);
     input.select();
-    var result = document.execCommand("copy");
+    const result = document.execCommand('copy');
     document.body.removeChild(input);
-    btn.current.style.setProperty("--text-content", '"Copied"');
+    btn.current.style.setProperty('--text-content', '"Copied"');
     return result;
   };
 
   const exit = () => {
-    setTimeout(
-      () => btn.current.style.setProperty("--text-content", '"Click to Copy"'),
-      200
-    );
+    setTimeout(() => btn.current.style.setProperty('--text-content', '"Click to Copy"'), 200);
   };
 
   return (
-    <button ref={btn} onMouseOut={exit} onClick={copy}>
+    <button type="button" ref={btn} onBlur={exit} onMouseOut={exit} onClick={copy}>
       Copy
       <style jsx>{`
         button {
@@ -32,10 +29,10 @@ export default ({ text, long }: { text: string; long?: boolean }) => {
           padding: 7px 25px;
           color: var(--text-color);
           font-size: 1em;
-          margin: ${long ? "20px" : "0"} 15px;
+          margin: ${long ? '20px' : '0'} 15px;
           border-radius: 20px;
           outline: none;
-          --text-content: "Click to copy";
+          --text-content: 'Click to copy';
         }
 
         button:hover {
@@ -75,3 +72,5 @@ export default ({ text, long }: { text: string; long?: boolean }) => {
     </button>
   );
 };
+
+export default App;

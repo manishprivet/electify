@@ -1,16 +1,17 @@
-import { useState, useEffect } from "react";
-import Layout from "../components/Layout";
-import Spinner from "../components/Spinner";
-import dynamic from "next/dynamic";
-import { data as dataInterface } from "../interfaces/data";
-const ElectionCreated = dynamic(() => import("../components/ElectionCreated"), {
+import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import Layout from '../components/Layout';
+import Spinner from '../components/Spinner';
+import { data as dataInterface } from '../interfaces/data';
+
+const ElectionCreated = dynamic(() => import('../components/ElectionCreated'), {
   loading: () => <Spinner />,
 });
-const CreateElection = dynamic(() => import("../components/CreateElection"), {
+const CreateElection = dynamic(() => import('../components/CreateElection'), {
   loading: () => <Spinner />,
 });
 
-export default () => {
+const App: React.FC<unknown> = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [voterData, setVoterData] = useState<dataInterface>();
 
@@ -18,16 +19,17 @@ export default () => {
     setIsLoading(false);
   }, []);
 
-  const createElection = async (data) => {
+  const createElection = async (data: dataInterface) => {
     setIsLoading(true);
-    const res = await fetch("/api/create", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
+    const res = await fetch('/api/create', {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(data),
     });
-    const voterData = await res.json();
+    const newVoterData = (await res.json()) as dataInterface;
     setIsLoading(false);
-    setVoterData(voterData);
+    setVoterData(newVoterData);
+    return null;
   };
 
   return (
@@ -42,3 +44,5 @@ export default () => {
     </Layout>
   );
 };
+
+export default App;

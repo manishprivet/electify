@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.713.0",
+    "csstype": "^3.0.2",
     "google-auth-library": "^6.0.5",
     "next": "9.4.4",
     "react": "16.13.1",

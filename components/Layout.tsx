@@ -1,87 +1,83 @@
-import Link from "next/link";
-import { useRef } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import Link from 'next/link';
+import { useRef } from 'react';
 
-export default ({ children }: { children: React.ReactNode }) => {
+const App: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navList = useRef<HTMLUListElement>();
 
   const toggleDarkMode = () => {
-    const style = document.body.style;
-    let lightMode: any = document.body.style.getPropertyValue(
-      "--background-color"
-    );
-    if (!lightMode) lightMode = "true";
-    else lightMode = lightMode === "#16161a";
-    style.setProperty("--background-color", lightMode ? "#fffffe" : "#16161a");
-    style.setProperty("--text-color", lightMode ? "#16161a" : "#fffffe");
-    style.setProperty("--invert-value", `invert(${lightMode ? 100 : 0}%)`);
+    const { style } = document.body;
+    let lightMode: unknown = document.body.style.getPropertyValue('--background-color');
+    if (!lightMode) lightMode = 'true';
+    else lightMode = lightMode === '#16161a';
+    style.setProperty('--background-color', lightMode ? '#fffffe' : '#16161a');
+    style.setProperty('--text-color', lightMode ? '#16161a' : '#fffffe');
+    style.setProperty('--invert-value', `invert(${lightMode ? 100 : 0}%)`);
   };
 
   const openNav = () => {
-    navList.current.classList.add("nav-show");
+    navList.current.classList.add('nav-show');
   };
 
   const closeNav = () => {
-    navList.current.classList.remove("nav-show");
+    navList.current.classList.remove('nav-show');
   };
 
   return (
-    <div className='top-container c-flex'>
+    <div className="top-container c-flex">
       <nav>
-        <div className='electify-logo c-flex'>
-          <img src='/electify-logo.png' alt='logo' />
+        <div className="electify-logo c-flex">
+          <img src="/electify-logo.png" alt="logo" />
           <span>Electify</span>
         </div>
-        <div onClick={openNav} className='hamburger c-flex'>
-          <img src='/menu.svg' alt='menu' />
+        <div role="menu" tabIndex={0} onClick={openNav} className="hamburger c-flex">
+          <img src="/menu.svg" alt="menu" />
         </div>
-        <ul ref={navList} className='c-flex'>
-          <li onClick={closeNav} className='back-button'>
-            <img src='/back.png' alt='menu' />
+        <ul ref={navList} className="c-flex">
+          <li role="menuitem" onClick={closeNav} className="back-button">
+            <img src="/back.png" alt="menu" />
           </li>
-          <li onClick={closeNav}>
-            <Link href='/'>
+          <li role="menuitem" onClick={closeNav}>
+            <Link href="/">
               <a>HOME</a>
             </Link>
           </li>
-          <li onClick={closeNav}>
-            <Link href='/create'>
+          <li role="menuitem" onClick={closeNav}>
+            <Link href="/create">
               <a>CREATE</a>
             </Link>
           </li>
-          <li onClick={closeNav}>
-            <Link href='/vote'>
+          <li role="menuitem" onClick={closeNav}>
+            <Link href="/vote">
               <a>VOTE</a>
             </Link>
           </li>
-          <li onClick={closeNav}>
-            <Link href='/results'>
+          <li role="menuitem" onClick={closeNav}>
+            <Link href="/results">
               <a>RESULTS</a>
             </Link>
           </li>
-          <li className='dark-mode'>
-            <img
-              onClick={toggleDarkMode}
-              src='/daynight.png'
-              alt='Toggle Dark Mode'
-            />
+          <li role="menuitem" onClick={toggleDarkMode} className="dark-mode">
+            <img src="/daynight.png" alt="Toggle Dark Mode" />
           </li>
         </ul>
       </nav>
       {children}
-      <footer className='c-flex'>
+      <footer className="c-flex">
         <a
-          className='c-flex'
-          href='https://manishprivet.github.io'
-          target='_blank'
-          rel='noopener noreferrer'
+          className="c-flex"
+          href="https://manishprivet.github.io"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Made By <img src='/me.png' alt='Me' className='logo' />
+          Made By <img src="/me.png" alt="Me" className="logo" />
         </a>
-        <a href='/PrivacyPolicyElectify.pdf' target='_blank'>
+        <a href="/PrivacyPolicyElectify.pdf" target="_blank">
           Privacy Policy
         </a>
       </footer>
-      <style jsx global>{``}</style>
+      <style jsx global />
       <style jsx>{`
         .top-container {
           position: relative;
@@ -259,3 +255,5 @@ export default ({ children }: { children: React.ReactNode }) => {
     </div>
   );
 };
+
+export default App;

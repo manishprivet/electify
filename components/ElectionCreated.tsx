@@ -1,62 +1,64 @@
-import Countdown from "./Countdown";
-import IDButton from "./IDButton";
+import Countdown from './Countdown';
+import IDButton from './IDButton';
+import { data as dataInterface } from '../interfaces/data';
 
-export default ({ voterData }) => {
-  function downloadObjectAsJson(exportObj: object, exportName: string) {
-    var dataStr =
-      "data:text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(exportObj));
-    var downloadAnchorNode = document.createElement("a");
-    downloadAnchorNode.setAttribute("href", dataStr);
-    downloadAnchorNode.setAttribute("download", exportName + ".json");
+const App: React.FC<{ voterData: dataInterface }> = ({ voterData }) => {
+  function downloadObjectAsJson(exportObj: Array<Record<string, unknown>>, exportName: string) {
+    const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(exportObj))}`;
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute('href', dataStr);
+    downloadAnchorNode.setAttribute('download', `${exportName}.json`);
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
   }
 
-  function convertToCSV(objArray: any, fileTitle: string) {
-    var array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
-    var str = "";
-    str += "election_id," + fileTitle + "\r\n";
-    for (var i = 0; i < array.length; i++) {
-      var line = "";
-      for (var index in array[i]) {
-        if (line != "") line += ",";
-
+  function convertToCSV(objArray: string, fileTitle: string) {
+    const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
+    let str = '';
+    str += `election_id,${fileTitle}\r\n`;
+    for (let i = 0; i < array.length; i += 1) {
+      let line = '';
+      array[i].array.forEach((_: unknown, index: number) => {
+        if (line !== '') line += ',';
         line += array[i][index];
-      }
+      });
+      // for (const index in array[i]) {
+      //   if (line != '') line += ',';
 
-      str += line + "\r\n";
+      //   line += array[i][index];
+      // }
+
+      str += `${line}\r\n`;
     }
 
     return str;
   }
 
-  function exportCSVFile(headers: any, items: Array<any>, fileTitle: string) {
+  function exportCSVFile(headers: unknown, items: Array<unknown>, fileTitle: string) {
     if (headers) {
       items.unshift(headers);
     }
 
     // Convert Object to JSON
-    var jsonObject = JSON.stringify(items);
+    const jsonObject: string = JSON.stringify(items);
+    const csv = convertToCSV(jsonObject, fileTitle);
 
-    var csv = convertToCSV(jsonObject, fileTitle);
+    const exportedFilenmae = `${fileTitle}.csv` || 'export.csv';
 
-    var exportedFilenmae = fileTitle + ".csv" || "export.csv";
-
-    var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     if (navigator.msSaveBlob) {
       // IE 10+
       navigator.msSaveBlob(blob, exportedFilenmae);
     } else {
-      var link = document.createElement("a");
+      const link = document.createElement('a');
       if (link.download !== undefined) {
         // feature detection
         // Browsers that support HTML5 download attribute
-        var url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", exportedFilenmae);
-        link.style.visibility = "hidden";
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', exportedFilenmae);
+        link.style.visibility = 'hidden';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -65,35 +67,35 @@ export default ({ voterData }) => {
   }
 
   return (
-    <main className='container'>
+    <main className="container">
       <h1>Election Created</h1>
-      <div className='terms c-flex'>
+      <div className="terms c-flex">
         <h3>Election Name:</h3>
-        <div className='c-flex'>
+        <div className="c-flex">
           <span>{voterData.display_name}</span>
           <IDButton text={voterData.display_name} />
         </div>
       </div>
-      <div className='terms c-flex'>
+      <div className="terms c-flex">
         <h3>Your unique Election ID:</h3>
-        <div className='c-flex'>
+        <div className="c-flex">
           <span>{voterData.election_id}</span>
           <IDButton text={voterData.election_id} />
         </div>
       </div>
       <h2>Download the Voter Data</h2>
-      <div className='downloads-container'>
+      <div className="downloads-container">
         <button
-          onClick={() =>
-            downloadObjectAsJson(voterData.voters, voterData.election_id)
-          }
+          type="button"
+          onClick={() => downloadObjectAsJson(voterData.voters, voterData.election_id)}
         >
           Download JSON
         </button>
         <button
+          type="button"
           onClick={() =>
             exportCSVFile(
-              { voter_id: "voter_id", voter_secret: "voter_secret" },
+              { voter_id: 'voter_id', voter_secret: 'voter_secret' },
               voterData.voters,
               voterData.election_id
             )
@@ -104,22 +106,16 @@ export default ({ voterData }) => {
       </div>
 
       <h3>
-        This is the{" "}
-        <span style={{ color: "red", fontSize: "1.1em" }}>only time</span>{" "}
-        you'll be seeing this list. So{" "}
-        <span style={{ color: "red", fontSize: "1.1em" }}>download it</span> at
-        a safe location.
+        This is the <span style={{ color: 'red', fontSize: '1.1em' }}>only time</span> you&apos;ll
+        be seeing this list. So <span style={{ color: 'red', fontSize: '1.1em' }}>download it</span>{' '}
+        at a safe location.
       </h3>
-      {voterData.auth_type === "secret" ? (
+      {voterData.auth_type === 'secret' ? (
         <h3>
-          Distribute Voter IDs and{" "}
-          <span style={{ color: "red", fontSize: "1.1em" }}>Secrets</span> among
-          the voters{" "}
-          <span style={{ color: "red", fontSize: "1.1em" }}>seperately</span>,
-          as each voter ID gets exactly{" "}
-          <span style={{ color: "red", fontSize: "1.1em" }}>
-            one chance to vote
-          </span>
+          Distribute Voter IDs and <span style={{ color: 'red', fontSize: '1.1em' }}>Secrets</span>{' '}
+          among the voters <span style={{ color: 'red', fontSize: '1.1em' }}>seperately</span>, as
+          each voter ID gets exactly{' '}
+          <span style={{ color: 'red', fontSize: '1.1em' }}>one chance to vote</span>
         </h3>
       ) : null}
 
@@ -130,34 +126,27 @@ export default ({ voterData }) => {
             <th>Candidate Name</th>
             <th>Number of Votes</th>
           </tr>
-          {voterData.candidates.map(
-            (candidate: { name: string; votes: number }, index: number) => (
-              <tr key={candidate.name + index}>
-                <td>{candidate.name}</td>
-                <td>{candidate.votes}</td>
-              </tr>
-            )
-          )}
+          {voterData.candidates.map((candidate: { name: string; votes: number }, index: number) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <tr key={candidate.name + index}>
+              <td>{candidate.name}</td>
+              <td>{candidate.votes}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      <div className='terms c-flex'>
+      <div className="terms c-flex">
         <h3>Link for voters:</h3>
-        <div className='c-flex'>
-          <span className='copy-link'>{`electify.manish.codes/vote/${voterData.election_id}`}</span>
-          <IDButton
-            long
-            text={`https://electify.manish.codes/vote/${voterData.election_id}`}
-          />
+        <div className="c-flex">
+          <span className="copy-link">{`electify.manish.codes/vote/${voterData.election_id}`}</span>
+          <IDButton long text={`https://electify.manish.codes/vote/${voterData.election_id}`} />
         </div>
       </div>
-      <div className='terms c-flex'>
+      <div className="terms c-flex">
         <h3>Link for results:</h3>
-        <div className='c-flex'>
-          <span className='copy-link'>{`electify.manish.codes/results/${voterData.election_id}`}</span>
-          <IDButton
-            long
-            text={`https://electify.manish.codes/results/${voterData.election_id}`}
-          />
+        <div className="c-flex">
+          <span className="copy-link">{`electify.manish.codes/results/${voterData.election_id}`}</span>
+          <IDButton long text={`https://electify.manish.codes/results/${voterData.election_id}`} />
         </div>
       </div>
       <h2>Voters</h2>
@@ -165,40 +154,37 @@ export default ({ voterData }) => {
       <table>
         <tbody>
           <tr>
-            <th>{voterData.auth_type === "secret" ? "Voter Id" : "Emails"}</th>
-            {voterData.auth_type === "secret" ? <th>Voter Secret</th> : null}
+            <th>{voterData.auth_type === 'secret' ? 'Voter Id' : 'Emails'}</th>
+            {voterData.auth_type === 'secret' ? <th>Voter Secret</th> : null}
           </tr>
           {voterData.voters.map((voter, index) => (
-            <tr key={"voter-" + index}>
-              <td>
-                {voterData.auth_type === "secret" ? voter.voter_id : voter}
-              </td>
-              {voterData.auth_type === "secret" ? (
-                <td>{voter.voter_secret}</td>
-              ) : null}
+            // eslint-disable-next-line react/no-array-index-key
+            <tr key={`voter-${index}`}>
+              <td>{voterData.auth_type === 'secret' ? voter.voter_id : voter}</td>
+              {voterData.auth_type === 'secret' ? <td>{voter.voter_secret}</td> : null}
             </tr>
           ))}
         </tbody>
       </table>
-      <h2 style={{ textAlign: "center" }}>
+      <h2 style={{ textAlign: 'center' }}>
         This will expire in: <br />
         <Countdown
-          style={{ color: "red", fontFamily: "monospace", fontSize: "1.2em" }}
+          style={{ color: 'red', fontFamily: 'monospace', fontSize: '1.2em' }}
           epoch={voterData.expiration_time}
         />
       </h2>
-      <div className='downloads-container'>
+      <div className="downloads-container">
         <button
-          onClick={() =>
-            downloadObjectAsJson(voterData.voters, voterData.election_id)
-          }
+          type="button"
+          onClick={() => downloadObjectAsJson(voterData.voters, voterData.election_id)}
         >
           Download JSON
         </button>
         <button
+          type="button"
           onClick={() =>
             exportCSVFile(
-              { voter_id: "voter_id", voter_secret: "voter_secret" },
+              { voter_id: 'voter_id', voter_secret: 'voter_secret' },
               voterData.voters,
               voterData.election_id
             )
@@ -307,3 +293,5 @@ export default ({ voterData }) => {
     </main>
   );
 };
+
+export default App;

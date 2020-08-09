@@ -1,22 +1,21 @@
-import { useEffect, useRef } from "react";
-export default ({ progress, total }: { progress: number; total: number }) => {
+import { useEffect, useRef } from 'react';
+
+const App: React.FC<{ progress: number; total: number }> = ({ progress, total }) => {
   const bar = useRef<HTMLSpanElement>();
   const container = useRef<HTMLDivElement>();
   useEffect(() => {
     const percentage = Math.floor((progress * 100) / total);
     let p = 0;
     const i = setInterval(() => {
-      bar.current.style.setProperty("width", `${p++}%`);
-      container.current.style.setProperty(
-        "filter",
-        `hue-rotate(${p / 100}turn)`
-      );
+      // eslint-disable-next-line no-plusplus
+      bar.current.style.setProperty('width', `${p++}%`);
+      container.current.style.setProperty('filter', `hue-rotate(${p / 100}turn)`);
       if (p > percentage || !percentage) clearInterval(i);
     }, 5);
   }, [total, progress]);
 
   return (
-    <div ref={container} className='progressBar'>
+    <div ref={container} className="progressBar">
       <span ref={bar} />
       <style jsx>{`
         .progressBar {
@@ -28,7 +27,7 @@ export default ({ progress, total }: { progress: number; total: number }) => {
         }
 
         .progressBar span {
-          content: "";
+          content: '';
           position: absolute;
           background: var(--button-color);
           height: 20px;
@@ -41,3 +40,5 @@ export default ({ progress, total }: { progress: number; total: number }) => {
     </div>
   );
 };
+
+export default App;

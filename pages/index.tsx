@@ -1,36 +1,37 @@
-import Head from "next/head";
-import Link from "next/link";
-import Layout from "../components/Layout";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import Head from 'next/head';
+import Link from 'next/link';
+import Layout from '../components/Layout';
 
-export default function Home() {
+const Home: React.FC<unknown> = () => {
   return (
     <Layout>
       <Head>
         <title>Electify</title>
-        <link rel='icon' href='/favicon.ico' />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <img src='/electify-logo.png' alt='logo' />
-        <h1 className='title'>
-          Welcome to <a href='https://electify.manish.codes'>Electify!</a>
+        <img src="/electify-logo.png" alt="logo" />
+        <h1 className="title">
+          Welcome to <a href="https://electify.manish.codes">Electify!</a>
         </h1>
 
-        <div className='grid'>
-          <Link href='/create'>
-            <a className='card'>
+        <div className="grid">
+          <Link href="/create">
+            <a className="card">
               <h3>Create Election</h3>
               <p>Create an anonymous election</p>
             </a>
           </Link>
-          <Link href='/vote'>
-            <a className='card'>
+          <Link href="/vote">
+            <a className="card">
               <h3>Vote for an Election</h3>
               <p>Keep your Election ID, Voter ID and Voter Secret ready</p>
             </a>
           </Link>
-          <Link href='/results'>
-            <a className='card'>
+          <Link href="/results">
+            <a className="card">
               <h3>View Election Results</h3>
               <p>View Results of existing election</p>
             </a>
@@ -89,8 +90,8 @@ export default function Home() {
           border-radius: 5px;
           padding: 0.75rem;
           font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+          font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+            Bitstream Vera Sans Mono, Courier New, monospace;
         }
 
         .grid {
@@ -153,4 +154,6 @@ export default function Home() {
       `}</style>
     </Layout>
   );
-}
+};
+
+export default Home;

@@ -1,4 +1,5 @@
-import { AppProps } from "next/app";
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { AppProps } from 'next/app';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -18,9 +19,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         body {
           padding: 0;
           margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+            Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
           background: var(--background-color);
         }
 
@@ -81,7 +81,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }
 
         .container input + span {
-          content: "";
+          content: '';
           position: relative;
           width: 0%;
           height: 0;
