@@ -77,7 +77,6 @@ const App: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           Privacy Policy
         </a>
       </footer>
-      <style jsx global />
       <style jsx>{`
         .top-container {
           position: relative;
