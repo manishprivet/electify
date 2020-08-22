@@ -10,7 +10,7 @@ This is a [Next.js](https://nextjs.org/) + [Vercel](https://vercel.com/) Project
 ![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/manishprivet/electify/next?style=for-the-badge)
 <br>
 
-[![forthebadge made-with-javascript](http://ForTheBadge.com/images/badges/made-with-javascript.svg)](https://www.javascript.com/)
+[![forthebadge made-with-typescript](https://img.shields.io/badge/Made%20With-Typescript-blue?style=for-the-badge)](https://www.typescriptlang.org/)
 <br>
 
 [![ForTheBadge uses-html](http://ForTheBadge.com/images/badges/uses-html.svg)](https://www.w3schools.com/)
