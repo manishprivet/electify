@@ -13,9 +13,7 @@ const CreateElection = dynamic(() => import('../components/CreateElection'), {
 
 const App: React.FC<unknown> = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [voterData, setVoterData] = useState<dataInterface>({
-    success: false,
-  });
+  const [voterData, setVoterData] = useState<dataInterface>({ success: false });
 
   useEffect(() => {
     setIsLoading(false);
