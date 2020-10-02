@@ -7,8 +7,8 @@ const Home: React.FC<unknown> = () => {
   return (
     <Layout>
       <Head>
-        <title>Electify</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Home | Electify</title>
+        
       </Head>
 
       <main>
