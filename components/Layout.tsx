@@ -67,7 +67,7 @@ const App: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <footer className="c-flex">
         <a
           className="c-flex"
-          href="https://manishprivet.github.io"
+          href="https://manish.codes"
           target="_blank"
           rel="noopener noreferrer"
         >
