@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Layout from '../components/Layout';
 import Spinner from '../components/Spinner';
+import Head from 'next/head';
 import { data as dataInterface } from '../interfaces/data';
 
 const ElectionCreated = dynamic(() => import('../components/ElectionCreated'), {
@@ -34,6 +35,7 @@ const App: React.FC<unknown> = () => {
 
   return (
     <Layout>
+      <Head><title>Create Election | Electify</title></Head>
       {isLoading ? (
         <Spinner />
       ) : voterData.success ? (

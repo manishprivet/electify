@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
+import Head from 'next/head';
 
 const App: React.FC<unknown> = () => {
   const [electionId, setElectionId] = useState<string>();
@@ -14,6 +15,7 @@ const App: React.FC<unknown> = () => {
 
   return (
     <Layout>
+       <Head><title>Vote | Electify</title></Head>
       <div className="container">
         <h1>Get on and Vote</h1>
         <label htmlFor="election-id">Election ID</label>

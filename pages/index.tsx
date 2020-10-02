@@ -8,7 +8,7 @@ const Home: React.FC<unknown> = () => {
     <Layout>
       <Head>
         <title>Electify</title>
-        <link rel="icon" href="/favicon.ico" />
+        
       </Head>
 
       <main>
