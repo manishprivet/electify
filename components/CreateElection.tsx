@@ -110,7 +110,6 @@ const App: React.FC<{ createElection: (data: dataInterface) => Promise<null> }> 
         placeholder="A proper name for your Election"
       />
       <span />
-      noOfVoters
       <label htmlFor="election-id">Election ID</label>
       <input
         onKeyPress={(e) => (e.charCode === 13 ? createElectionData() : null)}
