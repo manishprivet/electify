@@ -7,7 +7,7 @@ const Home: React.FC<unknown> = () => {
   return (
     <Layout>
       <Head>
-        <title>Home | Electify</title>
+        <title>Electify</title>
         
       </Head>
 
