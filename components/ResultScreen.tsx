@@ -96,7 +96,6 @@ const App: React.FC<{ data: dataInterface }> = ({ data }) => {
           <tbody>
             <tr>
               <th>Candidate Name</th>
-              <th>Number of Votes</th>
             </tr>
             {data.voted.map((candidate, index: number) => (
               // eslint-disable-next-line react/no-array-index-key
@@ -137,6 +136,10 @@ const App: React.FC<{ data: dataInterface }> = ({ data }) => {
           justify-self: end;
           margin-left: auto;
           color: var(--highlight-color);
+        }
+
+        table {
+          font-size: 1.1em;
         }
       `}</style>
     </div>
