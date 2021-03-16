@@ -91,6 +91,23 @@ const App: React.FC<{ data: dataInterface }> = ({ data }) => {
         </h2>
       )}
       <h2 style={{ textAlign: 'center' }}>
+        Voters till now: <br />
+        <table>
+          <tbody>
+            <tr>
+              <th>Candidate Name</th>
+              <th>Number of Votes</th>
+            </tr>
+            {data.voted.map((candidate, index: number) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <tr key={candidate + index}>
+                <td>{candidate}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </h2>
+      <h2 style={{ textAlign: 'center' }}>
         This Election will expire in: <br />
         <Countdown
           style={{ color: 'red', fontFamily: 'monospace', fontSize: '1.2em' }}

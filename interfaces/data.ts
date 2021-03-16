@@ -12,6 +12,7 @@ export interface data {
   expiration_time?: number;
   election_id?: string;
   voters?: Array<Record<string, unknown>>;
+  voted?: string[];
 }
 
 export interface voteInterface {
