@@ -2,10 +2,9 @@
 /* eslint-disable camelcase */
 import AWS, { AWSError } from 'aws-sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
-
 import { data as dataInterface } from '../../../interfaces/data';
 
-new AWS.Config().update({
+AWS.config.update({
   accessKeyId: process.env.AWS_ID,
   secretAccessKey: process.env.AWS_KEY,
   region: 'us-east-1',
