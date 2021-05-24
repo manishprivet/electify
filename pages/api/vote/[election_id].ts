@@ -1,24 +1,29 @@
-import AWS, { AWSError } from "aws-sdk";
-import { NextApiRequest, NextApiResponse } from "next";
+/* eslint-disable no-return-assign */
+/* eslint-disable no-use-before-define */
+/* eslint-disable consistent-return */
+/* eslint-disable func-names */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable camelcase */
+import AWS, { AWSError } from 'aws-sdk';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-import { data as dataInterface } from "../../../interfaces/data";
+import { data as dataInterface } from '../../../interfaces/data';
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ID,
   secretAccessKey: process.env.AWS_KEY,
-  region: "us-east-1",
+  region: 'us-east-1',
 });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
-const table = "electify";
+const table = 'electify';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
-    case "GET":
+    case 'GET':
       {
         let { election_id } = req.query as { election_id: string };
-        if (!election_id)
-          return res.status(400).json({ success: false, error: false });
+        if (!election_id) return res.status(400).json({ success: false, error: false });
         election_id = election_id.toLowerCase();
         const getParams = {
           TableName: table,
@@ -37,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               auth_type: data.Item.auth_type,
             } as dataInterface);
           }
-          return res.json({ success: false, error: "Wrong Election ID" });
+          return res.json({ success: false, error: 'Wrong Election ID' });
         });
       }
       break;

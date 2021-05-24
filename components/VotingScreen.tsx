@@ -20,6 +20,7 @@ const VotingScreen: React.FC<{
   };
 
   const failGoogle = (response: { error: string }) => {
+    console.log(response);
     if (response.error === 'idpiframe_initialization_failed') return;
     return setErrors('Oops! Something went wrong with email verification.');
   };
