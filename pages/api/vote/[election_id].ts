@@ -1,15 +1,11 @@
 /* eslint-disable no-return-assign */
-/* eslint-disable no-use-before-define */
-/* eslint-disable consistent-return */
-/* eslint-disable func-names */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable camelcase */
 import AWS, { AWSError } from 'aws-sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { data as dataInterface } from '../../../interfaces/data';
 
-AWS.config.update({
+new AWS.Config().update({
   accessKeyId: process.env.AWS_ID,
   secretAccessKey: process.env.AWS_KEY,
   region: 'us-east-1',
@@ -18,7 +14,17 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 const table = 'electify';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const error = (_: AWSError, res: NextApiResponse) => {
+  res.json({ success: false, error: true });
+};
+
+const totalVotes = (candidates: Array<{ votes: number }>) => {
+  let total = 0;
+  candidates.forEach((candidate) => (total += candidate.votes));
+  return total;
+};
+
+const handler: unknown = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case 'GET':
       {
@@ -29,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           TableName: table,
           Key: { election_id },
         };
-        docClient.get(getParams, async function (err, data) {
+        docClient.get(getParams, async (err, data) => {
           if (err) return error(err, res);
           if (data.Item) {
             return res.json({
@@ -49,17 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     default:
       return res.status(405).json({ success: false, error: false });
   }
-};
-
-const error = (err: AWSError, res: NextApiResponse) => {
-  console.log(err);
-  res.json({ success: false, error: true });
-};
-
-const totalVotes = (candidates: Array<{ votes: number }>) => {
-  let total = 0;
-  candidates.forEach((candidate) => (total += candidate.votes));
-  return total;
+  return null;
 };
 
 export const config = {
@@ -67,3 +63,5 @@ export const config = {
     externalResolver: true,
   },
 };
+
+export default handler;
