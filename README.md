@@ -3,7 +3,7 @@ This is a [Next.js](https://nextjs.org/) + [Vercel](https://vercel.com/) Project
 <p align="justify">
 
 [![Maintenance](https://img.shields.io/maintenance/yes/2020?style=for-the-badge)](https://gitHub.com/manishprivet/electify) ![GitHub last commit](https://img.shields.io/github/last-commit/manishprivet/electify?style=for-the-badge)
-[![Website](https://img.shields.io/website?down_color=blue&down_message=rocking&style=for-the-badge&up_color=blue&up_message=rocking&url=https%3A%2F%2Felectify.manish.codes%2F)](https://electify.manish.codes)
+[![Website](https://img.shields.io/website?down_color=blue&down_message=rocking&style=for-the-badge&up_color=blue&up_message=rocking&url=https%3A%2F%2Felectify.manishk.dev%2F)](https://electify.manishk.dev)
 ![David](https://img.shields.io/david/manishprivet/electify?style=for-the-badge)
 ![GitHub repo size](https://img.shields.io/github/repo-size/manishprivet/electify?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/manishprivet/electify?style=for-the-badge)
@@ -55,7 +55,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Deployment
 
-The project is deployed on Vercel and available at [electify.manish.codes](https://electify.manish.codes).
+The project is deployed on Vercel and available at [electify.manishk.dev](https://electify.manishk.dev).
 
 ## Developer Information
 

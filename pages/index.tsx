@@ -8,13 +8,12 @@ const Home: React.FC<unknown> = () => {
     <Layout>
       <Head>
         <title>Electify</title>
-        
       </Head>
 
       <main>
         <img src="/electify-logo.png" alt="logo" />
         <h1 className="title">
-          Welcome to <a href="https://electify.manish.codes">Electify!</a>
+          Welcome to <a href="https://electify.manishk.dev">Electify!</a>
         </h1>
 
         <div className="grid">

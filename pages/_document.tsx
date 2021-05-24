@@ -42,7 +42,7 @@ class MyDocument extends Document {
           <meta property="og:image" content="/electify-banner.png" />
           <meta property="og:image:height" content="1200" />
           <meta property="og:image:width" content="630" />
-          <meta property="og:url" content="https://electify.manish.codes/" />
+          <meta property="og:url" content="https://electify.manishk.dev/" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:creator" content="@manishprivet" />
           <meta property="og:site_name" content="Electify" />

@@ -138,15 +138,15 @@ const App: React.FC<{ voterData: dataInterface }> = ({ voterData }) => {
       <div className="terms c-flex">
         <h3>Link for voters:</h3>
         <div className="c-flex">
-          <span className="copy-link">{`electify.manish.codes/vote/${voterData.election_id}`}</span>
-          <IDButton long text={`https://electify.manish.codes/vote/${voterData.election_id}`} />
+          <span className="copy-link">{`electify.manishk.dev/vote/${voterData.election_id}`}</span>
+          <IDButton long text={`https://electify.manishk.dev/vote/${voterData.election_id}`} />
         </div>
       </div>
       <div className="terms c-flex">
         <h3>Link for results:</h3>
         <div className="c-flex">
-          <span className="copy-link">{`electify.manish.codes/results/${voterData.election_id}`}</span>
-          <IDButton long text={`https://electify.manish.codes/results/${voterData.election_id}`} />
+          <span className="copy-link">{`electify.manishk.dev/results/${voterData.election_id}`}</span>
+          <IDButton long text={`https://electify.manishk.dev/results/${voterData.election_id}`} />
         </div>
       </div>
       <h2>Voters</h2>

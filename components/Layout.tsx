@@ -65,12 +65,7 @@ const App: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </nav>
       {children}
       <footer className="c-flex">
-        <a
-          className="c-flex"
-          href="https://manish.codes"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a className="c-flex" href="https://manishk.dev" target="_blank" rel="noopener noreferrer">
           Made By <img src="/me.png" alt="Me" className="logo" />
         </a>
         <a href="/PrivacyPolicyElectify.pdf" target="_blank">
