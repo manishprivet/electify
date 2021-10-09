@@ -28,7 +28,9 @@ const App: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     <div className="top-container c-flex">
       <nav>
         <div className="electify-logo c-flex">
-          <img src="/electify-logo.png" alt="logo" />
+          <Link href="/">
+            <img src="/electify-logo.png" alt="logo" />
+          </Link>
           <span>Electify</span>
         </div>
         <div role="menu" tabIndex={0} onClick={openNav} className="hamburger c-flex">
