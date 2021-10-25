@@ -15,7 +15,12 @@ const App: React.FC<unknown> = () => {
 
   return (
     <Layout>
-       <Head><title>Vote | Electify</title></Head>
+       <Head><title>Vote | Electify</title>
+       <meta 
+        property="description"
+        description="This is Voting Page from here you can give vote for your election with out any sign-up or sign-in"
+        />
+        </Head>
       <div className="container">
         <h1>Get on and Vote</h1>
         <label htmlFor="election-id">Election ID</label>
