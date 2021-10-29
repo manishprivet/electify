@@ -18,6 +18,10 @@ const App: React.FC<unknown> = () => {
     <Layout>
       <Head>
         <title>Election Results | Electify</title>
+        <meta 
+        property="description"
+        description="This result page here you can see the result of your election by just entering the election ID "
+        />
       </Head>
       <div className="container">
         <h1>Get Voting Results</h1>

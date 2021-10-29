@@ -35,10 +35,6 @@ class MyDocument extends Document {
           <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
           <meta name="theme-color" content="#00d1c7" />
           <meta property="og:title" content="Electify" />
-          <meta
-            property="og:description"
-            content="Create Private and Anonymous Elections Instantly and Unlimited. No need to Sign UP"
-          />
           <meta property="og:image" content="/electify-banner.png" />
           <meta property="og:image:height" content="1200" />
           <meta property="og:image:width" content="630" />
